@@ -1,0 +1,53 @@
+/* root */
+:root {
+  /* Primary Palette */
+  --color-primary: #85b9f2;
+  --color-secondary: #3d73e6;
+  --color-accent: #918ce0;
+
+  /* Shades of Gray */
+  --gray-light: #e9ecef;
+  --gray-medium: #6c757d;
+  --gray-dark: #343a40;
+
+  /* Utility/Status Colors */
+  --color-success: #28a745;
+  --color-warning: #ffc107;
+  --color-error: #dc3545;
+}
+
+
+/* global */
+main {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--color-primary);
+    color: var(--gray-dark);
+    padding: 20px;
+}
+
+main div {
+    margin: 20px;
+    padding: 20px;
+    border: 5px solid var(--color-accent);
+    border-radius: 8px;
+    background-color: var(--color-secondary);
+}
+
+
+
+/* under constructions */
+.work-in-progress-image {
+    border-top: 20px solid var(--color-error); 
+    border-bottom: 20px solid var(--color-error);
+    border-radius: 13px;
+    width: 50%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.work-in-progress-image:hover {
+    transform: scale(1.30);
+    transition: transform 0.3s ease;
+}
