@@ -21,14 +21,31 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
+
+
+/* others-sections */
 .other-sections-section {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  container-type:inline-size; /* needed for cqw */
 }
 
-.other-sections-section div {
+
+.other-sections-section a{ /* to treat the div like a block */
+  display:block; 
+  text-decoration:none;
+  color:inherit;
+}
+
+.other-sections-section a div {
   margin: 10px;
   padding: 20px;
-  font-size: 3.3 cqw;
+  font-size: 3.3cqw;
+  transition: background-color 0.2s ease, font-size 0.2s ease;
+}
+
+.other-sections-section a:hover div {
+  font-size: 4cqw;
+  background-color: var(--color-primary);
 }
