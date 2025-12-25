@@ -1,17 +1,82 @@
 {
-    "projects": [
-        {
-        "title": "Portfolio Website",
-        "description": "My personal website to document projects and learning.",
-        "status": "In Progress",
-        "tech": ["HTML", "CSS", "JavaScript"],
-        "date" : "2025-12-25",
-        "image" : ".assets/images/_____",
-        "problem" : "I needed to builde a website for showcasing my skills",
-        "approach" : "through _____",
-        "result" : "now I have this website",
-        "learned" : "I learned _______",
-        "_comment": "perhaps learned part can be cycled like a list"
-        }
-    ]
+  "projects": [
+    {
+      "title": "Portfolio Website",
+      "description": "My personal website to document projects and learning.",
+      "status": "In Progress",
+      "tech": ["HTML", "CSS", "JavaScript"],
+      "date": "2025-12-25",
+      "image": ".assets/images/portfolio.png",
+      "link": "https://google.com",
+      "problem": "I needed to build a website for showcasing my skills",
+      "approach": "Designed a clean layout and built it with vanilla HTML/CSS/JS",
+      "result": "A responsive personal portfolio",
+      "learned": "Structuring front-end projects cleanly"
+    },
+    {
+      "title": "Task Tracker App",
+      "description": "A lightweight task manager for daily productivity.",
+      "status": "Completed",
+      "tech": ["JavaScript", "LocalStorage", "CSS"],
+      "date": "2025-01-10",
+      "image": ".assets/images/tasktracker.png",
+      "link": "https://example.com",
+      "problem": "I needed a simple way to track daily tasks",
+      "approach": "Used localStorage to persist tasks and JS for logic",
+      "result": "A fast offline task tracker",
+      "learned": "State management and DOM manipulation"
+    },
+    {
+      "title": "Weather Dashboard",
+      "description": "Displays real-time weather using an API.",
+      "status": "Completed",
+      "tech": ["JavaScript", "API", "CSS"],
+      "date": "2025-02-02",
+      "image": ".assets/images/weather.png",
+      "link": "https://example.com",
+      "problem": "Wanted to learn how APIs work",
+      "approach": "Fetched data from a public weather API",
+      "result": "Live weather updates by city",
+      "learned": "Async fetch and JSON parsing"
+    },
+    {
+      "title": "Study Planner",
+      "description": "Planner to organize study sessions and deadlines.",
+      "status": "In Progress",
+      "tech": ["HTML", "CSS", "JavaScript"],
+      "date": "2025-02-18",
+      "image": ".assets/images/studyplanner.png",
+      "link": "https://example.com",
+      "problem": "I struggled with organizing study time",
+      "approach": "Built a schedule-based planner UI",
+      "result": "Improved daily productivity",
+      "learned": "UI structure and time-based logic"
+    },
+    {
+      "title": "Handwriting Converter",
+      "description": "Converts handwritten text into digital text.",
+      "status": "Prototype",
+      "tech": ["Python", "OCR", "OpenCV"],
+      "date": "2025-03-05",
+      "image": ".assets/images/handwriting.png",
+      "link": "https://example.com",
+      "problem": "Needed a way to digitize handwritten notes",
+      "approach": "Used OCR libraries to process images",
+      "result": "Basic handwriting recognition tool",
+      "learned": "Image processing and OCR pipelines"
+    },
+    {
+      "title": "Fitness Tracker",
+      "description": "Logs workouts and tracks progress.",
+      "status": "Planned",
+      "tech": ["JavaScript", "Chart.js"],
+      "date": "2025-03-20",
+      "image": ".assets/images/fitness.png",
+      "link": "https://example.com",
+      "problem": "Wanted to visualize workout progress",
+      "approach": "Designed charts for reps and sets",
+      "result": "Clear visualization of fitness data",
+      "learned": "Data visualization basics"
+    }
+  ]
 }

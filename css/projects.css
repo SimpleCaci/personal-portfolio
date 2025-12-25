@@ -1,0 +1,45 @@
+/*projects/index.html*/
+
+.date-sidebar{
+  position: fixed;
+  top: 30%;
+  right: 24px;
+  padding: 12px 14px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  z-index: 999;
+  max-width: 180px;
+}
+
+.date-sidebar-label{
+  font-size: 1cqw;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+
+.date-sidebar-date{
+  font-size: 18px;
+  font-weight: 700;
+}
+
+
+.project-card {
+  transition: 
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    filter 0.4s ease;
+  will-change: transform;
+}
+
+.project-card:hover {
+  transform: 
+    translateY(-8px)
+    rotate(0.6deg)
+    scale(1.03);
+  box-shadow: 
+    0 20px 40px rgba(0,0,0,0.25),
+    0 0 20px rgba(100,150,255,0.3);
+  filter: saturate(1.15);
+}
