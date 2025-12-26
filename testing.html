@@ -1,0 +1,72 @@
+<!-- Overlay -->
+<div id="wipe"></div>
+
+<style>
+  #wipe{
+    position:fixed; inset:0;
+    z-index:9999;
+    pointer-events:none;
+    opacity:0;
+    display:grid;
+    grid-auto-flow:row;
+    grid-template-rows:repeat(10,1fr);
+    background:transparent;
+  }
+  #wipe .bar{
+    transform:scaleX(0);
+    transform-origin:left center;
+    background:#0b0b0b; /* change if you want */
+  }
+</style>
+
+<script>
+  function barsZoomTransition({bars=10, inMs=420, holdMs=120, outMs=420} = {}){
+    const wipe = document.getElementById("wipe");
+    wipe.style.gridTemplateRows = `repeat(${bars}, 1fr)`;
+    wipe.innerHTML = "";
+    for(let i=0;i<bars;i++){
+      const b=document.createElement("div");
+      b.className="bar";
+      b.style.transformOrigin = (i%2===0) ? "left center" : "right center";
+      wipe.appendChild(b);
+    }
+
+    const barEls=[...wipe.children];
+    wipe.style.opacity="1";
+
+    const stIn = inMs/(bars+6);
+    const stOut = outMs/(bars+6);
+
+    // zoom in (cover)
+    barEls.forEach((b,i)=>{
+      b.animate(
+        [
+          {transform:"scaleX(0)"},
+          {transform:"scaleX(1)"}
+        ],
+        {duration:inMs, delay:i*stIn, easing:"cubic-bezier(.2,.9,.2,1)", fill:"forwards"}
+      );
+    });
+
+    // zoom out (reveal)
+    const startOut = inMs + holdMs;
+    barEls.forEach((b,i)=>{
+      b.animate(
+        [
+          {transform:"scaleX(1)"},
+          {transform:"scaleX(0)"}
+        ],
+        {duration:outMs, delay:startOut + i*stOut, easing:"cubic-bezier(.4,0,.2,1)", fill:"forwards"}
+      );
+    });
+
+    // cleanup
+    const total = startOut + outMs + (bars-1)*stOut + 40;
+    setTimeout(()=>{ wipe.style.opacity="0"; }, total);
+    return total;
+  }
+
+  // Example usage: run transition then navigate
+  // const t = barsZoomTransition();
+  // setTimeout(()=> window.location.href="https://example.com", t/2); // navigate at full cover
+</script>

@@ -8,7 +8,7 @@ async function grabData(dataName) {
 
     const response = await fetch(request);
     const data = await response.json();
-
+ 
     console.log("Data loaded:", data)
 
     return data;

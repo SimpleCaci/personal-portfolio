@@ -49,3 +49,7 @@
   font-size: 4cqw;
   background-color: var(--color-primary);
 }
+
+.other-sections-section a:active div {
+  filter: drop-shadow(0 0 10px gold);
+}
