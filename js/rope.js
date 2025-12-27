@@ -3,7 +3,7 @@ const rope = document.getElementById("rope");
 
 // --- Config ---
 const CFG = {
-  pullThreshold: 200,   // trigger when pulled past this
+  pullThreshold: 95,   // trigger when pulled past this
   follow: 0.18,         // smoothing while dragging
   ret: 0.10,            // smoothing while returning
   swayAmp: 2.2,         // degrees
@@ -49,7 +49,7 @@ function updatePosition() {
 }
 
 function render() {
-  rope.style.transform = `translate(-50%, ${S.currentY}px) rotate(${S.rotate}deg)`;
+  rope.style.transform = `translate(-50%, ${S.currentY-100}px) rotate(${S.rotate}deg)`;
 }
 
 function shouldTriggerTransition() {

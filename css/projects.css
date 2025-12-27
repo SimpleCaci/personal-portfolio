@@ -1,45 +1,151 @@
 /*projects/index.html*/
 
+
+
+/* date sidebar */
 .date-sidebar{
   position: fixed;
   top: 30%;
   right: 24px;
-  padding: 12px 14px;
-  border: 1px solid rgba(0,0,0,0.15);
-  border-radius: 10px;
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(8px);
   z-index: 999;
-  max-width: 180px;
+  max-width: 190px;
+
+  padding: 12px 14px;
+  border-radius: 14px;
+
+  /* match your global “glass” look */
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(10px);
+
+  color: var(--gray-light);
+  box-shadow: 0 14px 34px rgba(0,0,0,0.25);
+
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease;
+}
+
+.date-sidebar:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 18px 46px rgba(0,0,0,0.32);
+  border-color: rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.12);
 }
 
 .date-sidebar-label{
-  font-size: 1cqw;
-  opacity: 0.7;
-  margin-bottom: 6px;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.01em;
 }
 
 .date-sidebar-date{
-  font-size: 18px;
+  font-size: 1.05rem;
   font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* optional: hide on small screens so it doesn't cover content */
+@media (max-width: 760px){
+  .date-sidebar{ display:none; }
 }
 
 
-.project-card {
-  transition: 
-    transform 0.4s ease,
-    box-shadow 0.4s ease,
-    filter 0.4s ease;
-  will-change: transform;
+
+
+
+.project-card{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  padding: 1.4rem;
+  margin: 1rem;
+  border-radius: 16px;
+
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+  transition: transform 220ms ease, box-shadow 220ms ease;
 }
 
-.project-card:hover {
-  transform: 
-    translateY(-8px)
-    rotate(0.6deg)
-    scale(1.03);
-  box-shadow: 
-    0 20px 40px rgba(0,0,0,0.25),
-    0 0 20px rgba(100,150,255,0.3);
-  filter: saturate(1.15);
+.project-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 20px 46px rgba(0,0,0,0.28);
+}
+
+/* header */
+.project-header h2{
+  margin: 0;
+  font-size: 1.4rem;
+  letter-spacing: -0.02em;
+}
+
+.project-meta{
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+/* image */
+.project-image-wrap{
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.project-image{
+  width: 100%;
+  display: block;
+  transition: transform 300ms ease;
+}
+
+.project-card:hover .project-image{
+  transform: scale(1.04);
+}
+
+/* body */
+.project-body p{
+  margin: 0.4rem 0;
+  line-height: 1.5;
+}
+
+/* footer */
+.project-footer{
+  margin-top: 0.5rem;
+}
+
+.project-link{
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 150ms ease;
+}
+
+.project-link:hover{
+  opacity: 0.75;
+}
+
+
+/* nice keyboard focus */
+.project-card:focus-within{
+  outline: none;
+  border-color: rgba(145,140,224,0.40);
+  box-shadow:
+    0 18px 44px rgba(0,0,0,0.28),
+    0 0 0 3px rgba(145,140,224,0.22);
+}
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .date-sidebar,
+  .project-card{
+    transition: none;
+  }
+
+  .date-sidebar:hover,
+  .project-card:hover{
+    transform: none;
+    filter: none;
+  }
 }

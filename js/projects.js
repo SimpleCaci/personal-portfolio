@@ -8,22 +8,47 @@ async function grabData(dataName) {
   return await response.json();
 }
 
-// render one card
 function populateProject(project) {
   const section = document.querySelector(".current-items-section");
 
   const card = document.createElement("div");
-  card.classList.add("project-card");
+  card.className = "project-card";
   card.dataset.date = project.date;
 
+  /* ---------------- HEADER ---------------- */
+  const header = document.createElement("div");
+  header.className = "project-header";
+
   const title = document.createElement("h2");
+  title.className = "project-title";
   title.textContent = project.title;
 
   const meta = document.createElement("p");
-  meta.classList.add("project-meta");
+  meta.className = "project-meta";
   meta.textContent = `${project.status} • ${project.date}`;
 
+  header.append(title, meta);
+
+  /* ---------------- IMAGE ---------------- */
+  if (project.image) {
+    const imgWrap = document.createElement("div");
+    imgWrap.className = "project-image-wrap";
+
+    const img = document.createElement("img");
+    img.src = project.image;
+    img.alt = project.title;
+    img.className = "project-image";
+
+    imgWrap.appendChild(img);
+    card.appendChild(imgWrap);
+  }
+
+  /* ---------------- BODY ---------------- */
+  const body = document.createElement("div");
+  body.className = "project-body";
+
   const desc = document.createElement("p");
+  desc.className = "project-desc";
   desc.textContent = project.description;
 
   const tech = document.createElement("p");
@@ -41,22 +66,23 @@ function populateProject(project) {
   const learned = document.createElement("p");
   learned.innerHTML = `<strong>Learned:</strong> ${project.learned}`;
 
+  body.append(desc, tech, problem, approach, result, learned);
+
+  /* ---------------- FOOTER ---------------- */
+  const footer = document.createElement("div");
+  footer.className = "project-footer";
+
   const link = document.createElement("a");
   link.href = project.link;
-  link.textContent = "View Project";
+  link.textContent = "View Project →";
   link.target = "_blank";
   link.rel = "noopener noreferrer";
-  link.classList.add("project-link");
+  link.className = "project-link";
 
-  if (project.image) {
-    const img = document.createElement("img");
-    img.src = project.image;
-    img.alt = project.title;
-    img.classList.add("project-image");
-    card.appendChild(img);
-  }
+  footer.appendChild(link);
 
-  card.append(title, meta, desc, tech, problem, approach, result, learned, link);
+  /* ---------------- ASSEMBLE ---------------- */
+  card.append(header, body, footer);
   section.appendChild(card);
 }
 
