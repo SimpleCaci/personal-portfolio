@@ -1,4 +1,53 @@
-// global
+// ======= CONFIG: map tech name -> icon path (auto-fallback included) =======
+const TECH_ICON_BASE = "../assets/icon"; // adjust to your folder (you wrote ./asset/icon)
+const TECH_ICON_EXT = "png";             // png/svg etc
+
+function slugTech(t) {
+  return String(t || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\+/g, "plus")
+    .replace(/\#/g, "sharp")
+    .replace(/[^\w]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function techIconPath(techName) {
+  const slug = slugTech(techName);
+  return `${TECH_ICON_BASE}/${slug}.${TECH_ICON_EXT}`;
+}
+
+function buildTechIcons(techArr = []) {
+  const wrap = document.createElement("div");
+  wrap.className = "project-tech-icons";
+
+  for (const t of techArr) {
+    const chip = document.createElement("span");
+    chip.className = "tech-chip";
+
+    const img = document.createElement("img");
+    img.className = "tech-icon";
+    img.alt = t;
+    img.loading = "lazy";
+    img.decoding = "async";
+    img.src = techIconPath(t);
+
+    // fallback: if missing icon, show text chip
+    img.onerror = () => {
+      img.remove();
+      chip.textContent = t;
+      chip.classList.add("tech-chip--text");
+    };
+
+    chip.title = t;
+    chip.appendChild(img);
+    wrap.appendChild(chip);
+  }
+
+  return wrap;
+}
+
+// ======= global =======
 let projects;
 
 // fetch JSON
@@ -11,7 +60,7 @@ async function grabData(dataName) {
 function populateProject(project) {
   const section = document.querySelector(".current-items-section");
 
-  const card = document.createElement("div");
+  const card = document.createElement("article");
   card.className = "project-card";
   card.dataset.date = project.date;
 
@@ -38,6 +87,8 @@ function populateProject(project) {
     img.src = project.image;
     img.alt = project.title;
     img.className = "project-image";
+    img.loading = "lazy";
+    img.decoding = "async";
 
     imgWrap.appendChild(img);
     card.appendChild(imgWrap);
@@ -47,12 +98,15 @@ function populateProject(project) {
   const body = document.createElement("div");
   body.className = "project-body";
 
+  // tech icons row (compact)
+  body.appendChild(buildTechIcons(project.tech || []));
+
   const desc = document.createElement("p");
   desc.className = "project-desc";
   desc.textContent = project.description;
 
-  const tech = document.createElement("p");
-  tech.innerHTML = `<strong>Tech:</strong> ${project.tech.join(", ")}`;
+  const details = document.createElement("div");
+  details.className = "project-details";
 
   const problem = document.createElement("p");
   problem.innerHTML = `<strong>Problem:</strong> ${project.problem}`;
@@ -66,7 +120,8 @@ function populateProject(project) {
   const learned = document.createElement("p");
   learned.innerHTML = `<strong>Learned:</strong> ${project.learned}`;
 
-  body.append(desc, tech, problem, approach, result, learned);
+  details.append(problem, approach, result, learned);
+  body.append(desc, details);
 
   /* ---------------- FOOTER ---------------- */
   const footer = document.createElement("div");
@@ -104,8 +159,6 @@ function setupDateScrollSpy() {
 
   cards.forEach(card => observer.observe(card));
 }
-
-
 
 // run after DOM exists
 document.addEventListener("DOMContentLoaded", async () => {
