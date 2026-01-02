@@ -278,3 +278,120 @@
     filter: none;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Add to ../css/projects.css (or move to a dedicated writings.css if you want) */
+
+.writings{
+  width: min(980px, calc(100% - 48px));
+  margin: 42px auto 120px;
+}
+
+.writings-header{
+  margin-bottom: 18px;
+}
+
+.writings-header h1{
+  margin: 0 0 8px 0;
+}
+
+.writings-header p{
+  margin: 0;
+  opacity: 0.85;
+  line-height: 1.5;
+}
+
+.writings-list{
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 0 0;
+
+  display: grid;
+  gap: 14px;
+}
+
+.writing-item{
+  margin: 0;
+}
+
+.writing-link{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: center;
+
+  padding: 14px 16px;
+  border-radius: 16px;
+
+  text-decoration: none;
+  color: inherit;
+
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(10px);
+
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background-color 180ms ease;
+  box-shadow: 0 14px 34px rgba(0,0,0,0.18);
+}
+
+.writing-link:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.28);
+  box-shadow: 0 18px 46px rgba(0,0,0,0.26);
+  background: rgba(255,255,255,0.10);
+}
+
+.writing-link:active{
+  transform: translateY(-1px);
+}
+
+.writing-main{
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.writing-title{
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.writing-desc{
+  opacity: 0.82;
+  line-height: 1.35;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.writing-meta{
+  opacity: 0.75;
+  font-size: 0.92rem;
+  white-space: nowrap;
+  padding-left: 10px;
+}
+
+@media (max-width: 640px){
+  .writing-link{
+    grid-template-columns: 1fr;
+  }
+  .writing-meta{
+    padding-left: 0;
+  }
+}
