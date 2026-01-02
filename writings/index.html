@@ -1,39 +1,85 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Portfolio project" />
-    <title>Portfolio</title>
-    <link rel="icon" type="image/x-icon" href="./assets/icons/temp.ico" />
-    <link rel="stylesheet" href="../css/global.css" /> 
-    <link rel="stylesheet" href="../css/index.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Portfolio writings" />
+  <title>Writings</title>
+
+  <link rel="icon" type="image/x-icon" href="./assets/icons/temp.ico" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/index.css" />
+  <link rel="stylesheet" href="../css/projects.css" />
 </head>
+
 <body>
-    <header>
-        <nav>
-            <!-- navigation goes here -->
-        </nav>
-    </header>
+  <header>
+    <nav>
+      <!-- navigation goes here -->
+    </nav>
+  </header>
 
-    <main>
-        <div id="cursor"></div>
-        
-        <div class="top-bar-section">
-            <img class="top-bar-image" src="https://dummyimage.com/16:4x1080" alt="Top Bar Image" loading="lazy">
-            <h1 class="page-title">WRITINGS</h1>
-        </div>
+  <main>
+    <div id="cursor"></div>
+    <div id="wipe"></div>
 
-        <div class="work-in-progress">
-            <img class="work-in-progress-image" src="../assets/images/work-in-progress.png" alt="Work in Progress" loading="lazy">
-        </div>
-    </main>
+    <div class="top-bar-section">
+      <img class="top-bar-image" src="../assets/images/topImage.png" alt="Top Bar Image" loading="lazy">
+      <h1 class="page-title">/WRITINGS</h1>
+    </div>
 
-    <footer>
-        <!-- footer content -->
-    </footer>
+    <section class="writings">
+      <div class="writings-header">
+        <h1>Writings</h1>
+        <p>Essays, notes, reflections, and anything else I decide to publish.</p>
+      </div>
 
-    <script src="script.js" defer></script>
-    <script src="../js/cursor.js" defer></script>
+      <!-- Put your links here (duplicate <li> blocks as needed) -->
+      <ul class="writings-list" aria-label="Writing links">
+        <li class="writing-item">
+          <a class="writing-link" href="./writings/your-first-post.html">
+            <div class="writing-main">
+              <span class="writing-title">Title of Writing #1</span>
+              <span class="writing-desc">Short one-line description goes here.</span>
+            </div>
+            <span class="writing-meta">2026-01-02</span>
+          </a>
+        </li>
+
+        <li class="writing-item">
+          <a class="writing-link" href="./writings/your-second-post.html">
+            <div class="writing-main">
+              <span class="writing-title">Title of Writing #2</span>
+              <span class="writing-desc">Another short description.</span>
+            </div>
+            <span class="writing-meta">2025-12-18</span>
+          </a>
+        </li>
+
+        <li class="writing-item">
+          <a class="writing-link" href="https://example.com" target="_blank" rel="noopener">
+            <div class="writing-main">
+              <span class="writing-title">External Writing Link</span>
+              <span class="writing-desc">Opens in a new tab.</span>
+            </div>
+            <span class="writing-meta">link</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <img id="rope" src="../assets/images/rope.png"
+         onerror="this.src='https://www.dummyimage.com/30x500/000/fff';"
+         draggable="false">
+  </main>
+
+  <footer>
+    <!-- footer content -->
+  </footer>
+
+  <script src="../js/transition.js" defer></script>
+  <script src="../js/rope.js" defer></script>
+  <script src="../js/cursor.js" defer></script>
+  <script src="../js/titleAnimation.js" defer></script>
 </body>
 </html>
