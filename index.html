@@ -5,48 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Portfolio project" />
     <title>Portfolio</title>
+
     <link rel="icon" type="image/x-icon" href="./assets/icons/temp.ico" />
+
     <link rel="stylesheet" href="./css/global.css" />
     <link rel="stylesheet" href="./css/index.css" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 </head>
+
 <body>
     <header>
         <nav>
             <!-- navigation goes here -->
-             <!-- NAVBAR (HTML) -->
+            <!-- NAVBAR (HTML) -->
         </nav>
     </header>
 
     <main>
+        <!-- Custom Cursor -->
         <div id="cursor">
-            <img id="cursor" src="/assets/images/cow.png" alt="">
-
+            <img id="cursorImg" src="./assets/images/cow.png" alt="cursor image">
         </div>
 
         <div id="wipe"></div>
 
+        <!-- Hero / Top Bar -->
         <div class="top-bar-section">
-            <img class="top-bar-image" src="/assets/images/topImage.png" alt="Top Bar Image" loading="lazy" hidden>
+            <img
+                class="top-bar-image"
+                src="./assets/images/topImage.png"
+                alt="Top Bar Image"
+                loading="lazy"
+            >
             <h1 class="page-title">/QUINTON</h1>
         </div>
 
+        <!-- About -->
         <div class="about-me-section">
             <h1>About Me</h1>
             <p>This is a brief introduction about myself.</p>
         </div>
 
-        <div class="current-undertakings">            
+        <!-- Current Projects -->
+        <div class="current-undertakings">
             <h1>Current Projects</h1>
             <p>This is my list of projects.</p>
             <div class="current-items-section">
-                    
+                <!-- injected by JS -->
             </div>
         </div>
 
+        <!-- Navigation Cards -->
         <div class="other-sections-section">
             <a href="./projects/index.html">
                 <div class="projects-section">
@@ -65,19 +77,18 @@
             <a href="./contacts/index.html">
                 <div class="contacts-section">
                     <h2>Want to reach out?</h2>
-                    <p>Here's how to stay in contacts.</p>
+                    <p>Here's how to stay in contact.</p>
                 </div>
             </a>
         </div>
-        
-
     </main>
 
     <footer>
         <!-- footer content -->
     </footer>
 
-    <script src="./js/main.js" defer></script> 
+    <!-- Scripts -->
+    <script src="./js/main.js" defer></script>
     <script src="./js/hero.js" defer></script>
     <script src="./js/transition.js" defer></script>
     <script src="./js/cursor.js" defer></script>
