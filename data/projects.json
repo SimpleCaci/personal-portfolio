@@ -4,7 +4,7 @@
       "title": "Maple The Shepherd - Game",
       "description": "Submission for the Brainless Mini Game Jam",
       "status": "In Progress",
-      "tech": ["Godot", "GDScript", "Asprite"],
+      "tech": ["Godot", "GDScript", "Asprite", "Beepbox.co"],
       "date": "2025-12-25",
       "image": "../assets/projects/maple-the-sheep.png",
       "link": "https://github.com/SimpleCaci/personal-portfolio/tree/main",
