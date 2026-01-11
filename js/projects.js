@@ -1,5 +1,5 @@
 // ======= CONFIG: map tech name -> icon path (auto-fallback included) =======
-const TECH_ICON_BASE = "../assets/icon"; // adjust to your folder (you wrote ./asset/icon)
+const TECH_ICON_BASE = "../assets/icons"; // adjust to your folder (you wrote ./asset/icon)
 const TECH_ICON_EXT = "png";             // png/svg etc
 
 function slugTech(t) {
@@ -30,6 +30,9 @@ function buildTechIcons(techArr = []) {
     img.alt = t;
     img.loading = "lazy";
     img.decoding = "async";
+
+    console.log("TECH:", t, "=>", techIconPath(t));
+
     img.src = techIconPath(t);
 
     // fallback: if missing icon, show text chip
@@ -40,6 +43,8 @@ function buildTechIcons(techArr = []) {
     };
 
     chip.title = t;
+    chip.dataset.label = t;
+
     chip.appendChild(img);
     wrap.appendChild(chip);
   }
