@@ -40,17 +40,17 @@
       "learned": "UI structure and time-based logic"
     },
         {
-      "title": "Weather Dashboard",
-      "description": "Displays real-time weather using an API.",
+      "title": "Space Generation",
+      "description": "Turion Space Hack 2025 - Top 3 Winner",
       "status": "Completed",
-      "tech": ["JavaScript", "API", "CSS"],
+      "tech": ["JavaScript", "Python-Flask", "API", "CSS", "genai"],
       "date": "2025-02-02",
       "image": ".assets/images/weather.png",
-      "link": "https://example.com",
-      "problem": "Wanted to learn how APIs work",
-      "approach": "Fetched data from a public weather API",
-      "result": "Live weather updates by city",
-      "learned": "Async fetch and JSON parsing"
+      "link": "https://github.com/SimpleCaci/Turion-Hackathon-2025",
+      "problem": "Help educate and be more educated about space events",
+      "approach": "Fetched data from the NASA API API",
+      "result": "Live learning of any past space event",
+      "learned": "Async fetch and GenAI systems"
     },
     {
       "title": "Handwriting Converter",
