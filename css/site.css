@@ -424,13 +424,16 @@ main {
 
 .hero-word-wrap {
   min-height: 1.05em;
+  max-width: 100%;
   display: block;
+  overflow-wrap: anywhere;
   color: var(--violet);
   text-shadow: 3px 3px 0 var(--paper);
 }
 
 #rotating-word {
-  display: inline-block;
+  max-width: 100%;
+  display: block;
 }
 
 #rotating-word.is-switching {
@@ -1725,7 +1728,7 @@ main {
   }
 
   .hero h1 {
-    font-size: clamp(49px, 15vw, 72px);
+    font-size: clamp(46px, 13vw, 61px);
   }
 
   .hero-intro {

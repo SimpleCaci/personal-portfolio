@@ -236,7 +236,7 @@
       const current = message.textContent;
       const choices = messages.filter((item) => item !== current);
       message.textContent = choices[Math.floor(Math.random() * choices.length)];
-      cow.animate(
+      if (!prefersReducedMotion.matches) cow.animate(
         [
           { transform: `translate(${cowX}px, ${cowY}px) rotate(-5deg) scale(1)` },
           { transform: `translate(${cowX}px, ${cowY - 8}px) rotate(-2deg) scale(1.04)` },
@@ -349,7 +349,7 @@
     const release = (event) => {
       dragging = false;
       if (cord.hasPointerCapture(event.pointerId)) cord.releasePointerCapture(event.pointerId);
-      cord.animate(
+      if (!prefersReducedMotion.matches) cord.animate(
         [{ transform: `translateY(${pull}px)` }, { transform: "translateY(0)" }],
         { duration: 480, easing: "cubic-bezier(.2,.9,.2,1)" },
       );
