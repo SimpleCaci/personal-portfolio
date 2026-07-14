@@ -1,93 +1,56 @@
 # Personal Portfolio
 
-A personality-forward static portfolio for my projects, writing, and contact information.
+Quinton's maintained public portfolio: a personality-forward static site about applied software systems, product thinking, and learning through projects.
 
-The site uses a playful rope-and-cow visual theme while organizing project data separately from presentation code. It is intended to become the main public portfolio for SimpleCaci.
+## Direction
 
-> **Status:** active work in progress. The main pages, styling, project data, transitions, and custom cursor are present, but several sections still contain placeholder copy and links.
+The site is structured as a field notebook for projects that turn messy real-world input into useful output. Its featured work spans geospatial mission data, computer vision, desktop product design, handwriting OCR, voice interaction, and browser-based pose estimation.
 
-## Pages and features
+Project status language is intentionally specific. A repository link is not presented as a verified deployment or demo.
 
-- home page with animated hero and current-project cards
-- project gallery populated from `data/projects.json`
-- writings page
-- contact page
-- custom cursor, rope interaction, and page transitions
-- responsive CSS structure and local visual assets
+## Featured work
+
+- Turion Hackathon 2025 / Solar System Missions
+- Gesture-Reactive Avatar
+- Ambient Dashboard
+- HandwritingConverter
+- VoxNav
+- Rose Hackathon 2026 / Yoga Pose Match
 
 ## Technology
 
 - semantic HTML
-- CSS
-- vanilla JavaScript
-- JSON-backed project/profile/writing data
-- static hosting compatible
-
-## Project structure
-
-```text
-index.html            home
-projects/             project gallery
-writings/             writing links
-contacts/             contact page
-data/                 profile, project, and writing content
-js/                   interactions and data rendering
-css/                  shared and page-specific styles
-assets/               icons, project art, and visual theme
-```
+- responsive CSS
+- small, progressive vanilla JavaScript enhancement
+- static-hosting-compatible relative paths
 
 ## Run locally
 
-No build step is required. Use a local server so JSON requests and relative links behave consistently:
+No build step is required. Serve the repository root so paths behave like GitHub Pages:
 
 ```bash
 python -m http.server 8000
 ```
 
-Open [http://localhost:8000](http://localhost:8000).
+Open <http://localhost:8000>.
 
-## Content updates
+## Validation
 
-Update portfolio content in:
+Before publishing:
 
-- `data/profile.json`
-- `data/projects.json`
-- `data/writings.json`
+- parse the HTML and check local links/assets
+- verify external project links
+- test at desktop and mobile widths
+- test keyboard navigation and visible focus
+- test with reduced motion enabled
+- check the browser console for errors
+- verify the deployed GitHub Pages URL after merging
 
-Keep claims, project status, screenshots, and links accurate. Do not add placeholder awards, metrics, or deployments.
+## Deployment
 
-## Validation status
-
-No automated tests or CI workflow currently exist. Before publishing, manually check:
-
-- every navigation and project link
-- desktop and mobile layouts
-- keyboard focus and reduced-motion behavior
-- image alternative text
-- missing JSON/image failure states
-- contact details and external links
-- the site with JavaScript disabled or unavailable
-
-## Known unfinished work
-
-- the home page contains generic introduction/project copy
-- writing entries include example placeholders
-- the contact page references an external image
-- navigation/footer sections are incomplete
-- metadata and page titles are generic
-- no deployment workflow or custom-domain documentation exists
-- the custom cursor and animation effects need accessibility fallbacks
-
-## Roadmap
-
-- replace placeholder copy with a concise developer narrative
-- feature the strongest verified projects and case studies
-- add consistent project screenshots
-- finish navigation and footer
-- add reduced-motion and keyboard-friendly behavior
-- validate and deploy the static site
-- connect the profile README to the finished portfolio
+The repository is associated with <https://simplecaci.github.io/personal-portfolio/>. There is no deployment workflow in the repository, so the GitHub Pages source and live response should be verified in repository settings after changes merge.
 
 ## Authorship
 
 Designed and built by [SimpleCaci](https://github.com/SimpleCaci). A project license has not yet been selected.
+
