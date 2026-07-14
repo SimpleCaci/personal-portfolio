@@ -1,11 +1,17 @@
 {
-    "profile": {
-        "name": "Quinton",
-        "tagline": "CS student building projects and learning systems.",
-        "now": [
-        "Building my portfolio site",
-        "Learning HTML, CSS, and JavaScript",
-        "Studying finance and investing basics"
-        ]
+  "profile": {
+    "name": "Quinton",
+    "tagline": "Computer Science and Business Administration student building practical, human-centered systems.",
+    "focus": [
+      "Backend and full-stack development",
+      "Data systems and optimization",
+      "Geospatial and sustainability-focused products",
+      "Computer vision and accessible human-computer interaction",
+      "Small tools that remove everyday friction"
+    ],
+    "contact": {
+      "email": "simplesimpleemailemail@gmail.com",
+      "github": "https://github.com/SimpleCaci"
     }
+  }
 }

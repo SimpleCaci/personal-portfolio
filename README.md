@@ -1,44 +1,44 @@
-# Personal Portfolio
+# Quinton's Personal Field Station
 
-A personality-forward static portfolio for my projects, writing, and contact information.
+A personality-forward portfolio for Quinton's verified software projects, technical interests, and contact information.
 
-The site uses a playful rope-and-cow visual theme while organizing project data separately from presentation code. It is intended to become the main public portfolio for SimpleCaci.
+The site keeps the original cloud, cow, and pull-rope personality, then expands it into an interactive field station: an animated sky, a draggable cow, code-native project illustrations, honest project field notes, responsive map coordinates, and a pull-cord return interaction.
 
-> **Status:** active work in progress. The main pages, styling, project data, transitions, and custom cursor are present, but several sections still contain placeholder copy and links.
+> **Status:** active portfolio. The six featured repositories and their current limitations were verified before this redesign. The site does not claim live demos or deployments that have not been tested.
 
-## Pages and features
+## Featured systems
 
-- home page with animated hero and current-project cards
-- project gallery populated from `data/projects.json`
-- writings page
-- contact page
-- custom cursor, rope interaction, and page transitions
-- responsive CSS structure and local visual assets
+- [Turion Hackathon 2025](https://github.com/SimpleCaci/Turion-Hackathon-2025)
+- [HandwritingConverter](https://github.com/SimpleCaci/HandwritingConverter)
+- [Ambient Dashboard](https://github.com/SimpleCaci/ambient-dashboard)
+- [Gesture-Reactive Avatar](https://github.com/SimpleCaci/Gesture-Reactive-Avatar)
+- [VoxNav](https://github.com/SimpleCaci/VoxNav)
+- [Rose Hackathon 2026](https://github.com/SimpleCaci/Rose-Hackathon-2026)
+
+## Experience
+
+- animated canvas sky that responds gently to pointer position
+- draggable field cow with keyboard-accessible messages
+- pull-cord shortcut for returning to the beginning
+- project filters and expandable evidence notes
+- six original inline SVG project illustrations
+- map-inspired interests and handwritten field rules
+- reduced-motion, keyboard, mobile, high-contrast, and print fallbacks
+- legacy page redirects for existing project and contact URLs
 
 ## Technology
 
 - semantic HTML
-- CSS
+- modern responsive CSS
 - vanilla JavaScript
-- JSON-backed project/profile/writing data
-- static hosting compatible
+- JSON-backed project content
+- static GitHub Pages hosting
 
-## Project structure
-
-```text
-index.html            home
-projects/             project gallery
-writings/             writing links
-contacts/             contact page
-data/                 profile, project, and writing content
-js/                   interactions and data rendering
-css/                  shared and page-specific styles
-assets/               icons, project art, and visual theme
-```
+No framework or production build step is required.
 
 ## Run locally
 
-No build step is required. Use a local server so JSON requests and relative links behave consistently:
+Serve the repository root so JSON requests behave like GitHub Pages:
 
 ```bash
 python -m http.server 8000
@@ -46,47 +46,33 @@ python -m http.server 8000
 
 Open [http://localhost:8000](http://localhost:8000).
 
+## Validate
+
+The repository includes a dependency-free validation script:
+
+```bash
+node scripts/validate-site.mjs
+node --check js/site.js
+```
+
+The same checks run in GitHub Actions for pull requests and pushes to `main`.
+
+Manual validation should still cover:
+
+- project filtering and expanded field notes
+- cow dragging with mouse and touch
+- cow activation and pull-cord return with a keyboard
+- navigation at desktop and mobile widths
+- reduced-motion behavior
+- public repository and contact links
+
 ## Content updates
 
-Update portfolio content in:
+Verified project details live in `data/projects.json`. Keep status, evidence, limitations, repository links, and deployment claims accurate.
 
-- `data/profile.json`
-- `data/projects.json`
-- `data/writings.json`
+## Deployment
 
-Keep claims, project status, screenshots, and links accurate. Do not add placeholder awards, metrics, or deployments.
-
-## Validation status
-
-No automated tests or CI workflow currently exist. Before publishing, manually check:
-
-- every navigation and project link
-- desktop and mobile layouts
-- keyboard focus and reduced-motion behavior
-- image alternative text
-- missing JSON/image failure states
-- contact details and external links
-- the site with JavaScript disabled or unavailable
-
-## Known unfinished work
-
-- the home page contains generic introduction/project copy
-- writing entries include example placeholders
-- the contact page references an external image
-- navigation/footer sections are incomplete
-- metadata and page titles are generic
-- no deployment workflow or custom-domain documentation exists
-- the custom cursor and animation effects need accessibility fallbacks
-
-## Roadmap
-
-- replace placeholder copy with a concise developer narrative
-- feature the strongest verified projects and case studies
-- add consistent project screenshots
-- finish navigation and footer
-- add reduced-motion and keyboard-friendly behavior
-- validate and deploy the static site
-- connect the profile README to the finished portfolio
+The public site is hosted at [simplecaci.github.io/personal-portfolio](https://simplecaci.github.io/personal-portfolio/). The repository does not add or change a deployment workflow; the existing GitHub Pages configuration remains the deployment source.
 
 ## Authorship
 

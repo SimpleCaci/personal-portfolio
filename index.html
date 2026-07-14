@@ -1,97 +1,250 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Quinton’s software projects, experiments, and writing." />
-    <title>Quinton — Software Projects</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Quinton is a Computer Science and Business Administration student building practical systems across backend development, data, automation, and computer vision.">
+  <meta name="theme-color" content="#a9d8ff">
+  <meta property="og:title" content="Quinton — Practical systems, strange little experiments">
+  <meta property="og:description" content="A personal field station for software, computer vision, data systems, and product experiments.">
+  <meta property="og:type" content="website">
+  <title>Quinton — Practical systems & strange little experiments</title>
 
-    <link rel="icon" type="image/x-icon" href="./assets/icons/temp.ico" />
-
-    <link rel="stylesheet" href="./css/global.css" />
-    <link rel="stylesheet" href="./css/index.css" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="./assets/icons/temp.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/site.css">
 </head>
-
 <body>
-    <header>
-        <nav>
-            <!-- navigation goes here -->
-            <!-- NAVBAR (HTML) -->
-        </nav>
-    </header>
+  <a class="skip-link" href="#main-content">Skip to the field notes</a>
 
-    <main>
-        <!-- Custom Cursor -->
-        <div id="cursor">
-            <img id="cursorImg" src="./assets/images/cow.png" alt="cursor image">
+  <canvas id="sky-canvas" aria-hidden="true"></canvas>
+  <div class="ambient-grid" aria-hidden="true"></div>
+  <div id="page-wipe" aria-hidden="true"></div>
+
+  <header class="site-header" data-header>
+    <nav class="site-nav shell" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Quinton, back to the beginning">
+        <span class="brand-mark" aria-hidden="true">Q/</span>
+        <span class="brand-copy">
+          <strong>QUINTON</strong>
+          <small>personal field station</small>
+        </span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+
+      <div class="nav-links" id="nav-links">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#coordinates">Coordinates</a>
+        <a class="nav-signal" href="#contact">Send a signal <span aria-hidden="true">↗</span></a>
+      </div>
+    </nav>
+  </header>
+
+  <button class="pull-cord" id="pull-cord" type="button" aria-label="Pull the rope to return to the beginning">
+    <span class="pull-cord-track" aria-hidden="true"></span>
+    <img src="./assets/images/rope.png" alt="" draggable="false">
+    <span class="pull-cord-label" aria-hidden="true">pull to orbit home</span>
+  </button>
+
+  <main id="main-content">
+    <section class="hero shell" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> CS + BUSINESS // BUILDING IN PUBLIC</p>
+        <h1 id="hero-title">
+          I turn messy inputs into
+          <span class="hero-word-wrap"><span id="rotating-word">useful systems.</span></span>
+        </h1>
+        <p class="hero-intro">
+          I’m Quinton. I build backends, desktop tools, and computer-vision experiments that turn motion, speech, handwriting, and space data into something people can actually use.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#work">Enter the project field <span aria-hidden="true">↓</span></a>
+          <a class="button button-ghost" href="https://github.com/SimpleCaci" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+        <ul class="hero-tags" aria-label="Areas of focus">
+          <li>backend / full-stack</li>
+          <li>data systems</li>
+          <li>computer vision</li>
+          <li>practical product thinking</li>
+        </ul>
+      </div>
+
+      <div class="hero-playground reveal" id="hero-playground" aria-label="Interactive field station">
+        <div class="station-window">
+          <div class="window-chrome" aria-hidden="true">
+            <span></span><span></span><span></span>
+            <p>FIELD_CAM_01</p>
+          </div>
+          <div class="orbit-scene" aria-hidden="true">
+            <span class="orbit orbit-one"></span>
+            <span class="orbit orbit-two"></span>
+            <span class="orbit orbit-three"></span>
+            <span class="orbit-node node-data">DATA</span>
+            <span class="orbit-node node-vision">VISION</span>
+            <span class="orbit-node node-product">PRODUCT</span>
+            <span class="orbit-center">Q</span>
+          </div>
+          <div class="station-readout">
+            <span>SPECIMEN: FIELD COW</span>
+            <span id="cow-coordinates">X 72 / Y 64</span>
+          </div>
         </div>
 
-        <div id="wipe"></div>
+        <button class="field-cow" id="field-cow" type="button" aria-describedby="cow-instructions">
+          <img src="./assets/images/cow.png" alt="A black-and-white cow floating through Quinton's field station" draggable="false">
+          <span class="cow-shadow" aria-hidden="true"></span>
+        </button>
+        <p class="cow-message" id="cow-message" role="status">cow systems nominal.</p>
+        <p class="interaction-hint" id="cow-instructions"><span aria-hidden="true">↖</span> Drag the cow. It has places to be.</p>
+      </div>
 
-        <!-- Hero / Top Bar -->
-        <div class="top-bar-section">
-            <img
-                class="top-bar-image"
-                src="./assets/images/topImage.png"
-                alt="Top Bar Image"
-                loading="lazy"
-            >
-            <h1 class="page-title">/QUINTON</h1>
+      <div class="hero-ticker" aria-label="Current signal">
+        <span class="ticker-label">CURRENT SIGNAL</span>
+        <div class="ticker-window">
+          <p>BUILDING SMALL SYSTEMS WITH REAL INPUTS · EXPLORING GEOSPATIAL DATA · MAKING SOFTWARE FEEL HUMAN ·</p>
+        </div>
+        <span class="ticker-code">QFS-26</span>
+      </div>
+    </section>
+
+    <section class="about section shell" id="about" aria-labelledby="about-title">
+      <div class="section-heading reveal">
+        <p class="eyebrow">01 // ABOUT THE BUILDER</p>
+        <h2 id="about-title">Not a polished origin story. More like an active build log.</h2>
+      </div>
+
+      <div class="about-layout">
+        <article class="about-note reveal">
+          <span class="tape tape-coral" aria-hidden="true"></span>
+          <p class="note-kicker">WHY I BUILD</p>
+          <p class="note-lead">I like the point where a weird idea has to become understandable.</p>
+          <p>
+            That usually means taking an unreliable input, deciding what matters, building a clear workflow, and being honest about what still breaks. Studying Computer Science and Business Administration keeps me interested in both sides: how the system works and why anyone would want it.
+          </p>
+          <p>
+            My projects are prototypes, experiments, and working tools—not imaginary startups. I care about useful feedback, safe defaults, and the unglamorous details that make an idea runnable.
+          </p>
+          <span class="hand-note" aria-hidden="true">useful beats impressive*</span>
+        </article>
+
+        <div class="system-loop reveal" aria-label="The recurring pattern in Quinton's work">
+          <p class="loop-title">THE LOOP I KEEP COMING BACK TO</p>
+          <ol>
+            <li><span class="loop-number">01</span><div><strong>Observe</strong><small>camera, voice, paper, remote data</small></div></li>
+            <li><span class="loop-number">02</span><div><strong>Interpret</strong><small>landmarks, parsers, OCR, APIs</small></div></li>
+            <li><span class="loop-number">03</span><div><strong>Decide</strong><small>rules, trade-offs, useful defaults</small></div></li>
+            <li><span class="loop-number">04</span><div><strong>Return something useful</strong><small>feedback, actions, plots, printable output</small></div></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="work section shell" id="work" aria-labelledby="work-title">
+      <div class="section-heading work-heading reveal">
+        <div>
+          <p class="eyebrow">02 // SELECTED SYSTEMS</p>
+          <h2 id="work-title">Six repositories. One very specific curiosity.</h2>
+        </div>
+        <p>Every card names what exists now. No invented deployments, no “revolutionizing” anything.</p>
+      </div>
+
+      <div class="project-filter reveal" aria-label="Filter projects by system type">
+        <span>TRACE:</span>
+        <button type="button" class="is-active" data-filter="all" aria-pressed="true">all signals</button>
+        <button type="button" data-filter="data" aria-pressed="false">data</button>
+        <button type="button" data-filter="vision" aria-pressed="false">vision</button>
+        <button type="button" data-filter="product" aria-pressed="false">product</button>
+        <button type="button" data-filter="automation" aria-pressed="false">automation</button>
+      </div>
+
+      <p class="filter-status sr-only" id="filter-status" aria-live="polite"></p>
+      <div class="project-grid" id="project-grid" aria-live="polite"></div>
+      <noscript>
+        <div class="noscript-projects">
+          JavaScript builds the interactive project cards. The same work is available directly on
+          <a href="https://github.com/SimpleCaci">Quinton’s GitHub profile</a>.
+        </div>
+      </noscript>
+    </section>
+
+    <section class="coordinates section shell" id="coordinates" aria-labelledby="coordinates-title">
+      <div class="section-heading reveal">
+        <p class="eyebrow">03 // NEXT COORDINATES</p>
+        <h2 id="coordinates-title">The map is incomplete on purpose.</h2>
+      </div>
+
+      <div class="coordinates-map reveal">
+        <div class="map-grid" aria-hidden="true"></div>
+        <div class="map-route" aria-hidden="true">
+          <svg viewBox="0 0 900 360" preserveAspectRatio="none">
+            <path d="M45 285 C180 80 295 300 430 135 S690 35 850 115" />
+          </svg>
         </div>
 
-        <!-- About -->
-        <div class="about-me-section">
-            <h1>About Me</h1>
-            <p>This is a brief introduction about myself.</p>
+        <article class="coordinate-card coordinate-one"><span>SYSTEM // 01</span><h3>Data systems</h3><p>Designing reliable paths from raw input to useful information.</p></article>
+        <article class="coordinate-card coordinate-two"><span>EXPLORE // 02</span><h3>Optimization</h3><p>Learning how models, constraints, and business decisions meet.</p></article>
+        <article class="coordinate-card coordinate-three"><span>EXPLORE // 03</span><h3>Geospatial products</h3><p>Maps, spatial data, sustainability, and tools grounded in place.</p></article>
+        <article class="coordinate-card coordinate-four"><span>KEEP // ALWAYS</span><h3>Human feedback</h3><p>Interfaces that explain what happened and what someone can do next.</p></article>
+
+        <div class="map-you-are-here"><span aria-hidden="true"></span>YOU ARE HERE: STILL LEARNING</div>
+      </div>
+    </section>
+
+    <section class="principles section shell" aria-labelledby="principles-title">
+      <div class="principles-board reveal">
+        <div class="principles-title-card">
+          <p class="eyebrow">04 // FIELD RULES</p>
+          <h2 id="principles-title">How I want the work to feel.</h2>
         </div>
+        <ul>
+          <li class="sticky sticky-yellow"><strong>Make the first useful version.</strong><span>Then earn the fancy version.</span></li>
+          <li class="sticky sticky-pink"><strong>Say what is unfinished.</strong><span>A prototype can still be worth showing.</span></li>
+          <li class="sticky sticky-blue"><strong>Design the feedback loop.</strong><span>Silence is rarely a good interface.</span></li>
+          <li class="sticky sticky-green"><strong>Keep a little weirdness.</strong><span>Otherwise every website becomes the same website.</span></li>
+        </ul>
+      </div>
+    </section>
 
-        <!-- Current Projects -->
-        <div class="current-undertakings">
-            <h1>Current Projects</h1>
-            <p>This is my list of projects.</p>
-            <div class="current-items-section">
-                <!-- injected by JS -->
-            </div>
+    <section class="contact section shell" id="contact" aria-labelledby="contact-title">
+      <div class="contact-panel reveal">
+        <div class="contact-copy">
+          <p class="eyebrow">05 // OPEN CHANNEL</p>
+          <h2 id="contact-title">Have a useful problem—or a strange one?</h2>
+          <p>I’m interested in software engineering, backend, full-stack, applied computing, and teams that care about both the system and the person using it.</p>
+          <div class="contact-actions">
+            <a class="button button-primary" href="mailto:simplesimpleemailemail@gmail.com">Send an email <span aria-hidden="true">↗</span></a>
+            <a class="button button-ghost" href="https://github.com/SimpleCaci" target="_blank" rel="noopener noreferrer">Browse the source <span aria-hidden="true">↗</span></a>
+          </div>
         </div>
-
-        <!-- Navigation Cards -->
-        <div class="other-sections-section">
-            <a href="./projects/index.html">
-                <div class="projects-section">
-                    <h2>Projects</h2>
-                    <p>Details about my projects.</p>
-                </div>
-            </a>
-
-            <a href="./writings/index.html">
-                <div class="writings-section">
-                    <h2>Writings</h2>
-                    <p>Writings that are notable.</p>
-                </div>
-            </a>
-
-            <a href="./contacts/index.html">
-                <div class="contacts-section">
-                    <h2>Want to reach out?</h2>
-                    <p>Here's how to stay in contact.</p>
-                </div>
-            </a>
+        <div class="contact-transmission" aria-hidden="true">
+          <div class="transmission-ring ring-a"></div>
+          <div class="transmission-ring ring-b"></div>
+          <div class="transmission-ring ring-c"></div>
+          <div class="transmission-core">Q</div>
+          <span class="transmission-status">TRANSMITTING</span>
         </div>
-    </main>
+      </div>
+    </section>
+  </main>
 
-    <footer>
-        <!-- footer content -->
-    </footer>
+  <footer class="site-footer">
+    <div class="shell footer-layout">
+      <div>
+        <strong>QUINTON’S PERSONAL FIELD STATION</strong>
+        <p>Built with plain HTML, CSS, JavaScript, and an unreasonable amount of sky.</p>
+      </div>
+      <p>Last field revision: <time datetime="2026-07">July 2026</time></p>
+      <a href="#top">Return to orbit ↑</a>
+    </div>
+  </footer>
 
-    <!-- Scripts -->
-    <script src="./js/main.js" defer></script>
-    <script src="./js/hero.js" defer></script>
-    <script src="./js/transition.js" defer></script>
-    <script src="./js/cursor.js" defer></script>
-    <script src="./js/titleAnimation.js" defer></script>
+  <script src="./js/site.js" defer></script>
 </body>
 </html>
