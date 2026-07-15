@@ -1,54 +1,49 @@
 # Personal Portfolio
 
-Quinton's maintained public portfolio: a personality-forward static site about applied software systems, product thinking, and learning through projects.
+Quinton's maintained public portfolio: a handcrafted static site about applied software systems, product thinking, and learning through projects.
 
 ## Direction
 
-The site is structured as a field notebook for projects that turn messy real-world input into useful output. Its featured work spans geospatial mission data, computer vision, desktop product design, handwriting OCR, voice interaction, and browser-based pose estimation.
+The design combines a technical field notebook with a restrained rope-and-ranch motif. It keeps the original cow mascot, but core navigation and content no longer depend on a custom cursor, animation, or JavaScript.
 
-Project status language is intentionally specific. A repository link is not presented as a verified deployment or demo.
+The featured work spans geospatial mission data, computer vision, desktop product design, handwriting OCR, voice interaction, and browser-based pose estimation. Project status language is intentionally specific: a repository link is not presented as a verified deployment or demo.
 
-## Featured work
+## Pages
 
-- Turion Hackathon 2025 / Solar System Missions
-- Gesture-Reactive Avatar
-- Ambient Dashboard
-- HandwritingConverter
-- VoxNav
-- Rose Hackathon 2026 / Yoga Pose Match
+- `index.html` - homepage, selected work, method, about, and contact callout
+- `projects/` - JSON-backed project field notes with no-JavaScript and load-failure fallbacks
+- `writings/` - honest archive placeholder until finished writing exists
+- `contacts/` - verified public email and GitHub links
 
 ## Technology
 
 - semantic HTML
-- responsive CSS
-- small, progressive vanilla JavaScript enhancement
-- static-hosting-compatible relative paths
+- responsive CSS with custom properties
+- small progressive-enhancement JavaScript
+- JSON-backed project content
+- dependency-free static validation
 
 ## Run locally
 
-No build step is required. Serve the repository root so paths behave like GitHub Pages:
+No build step is required. Serve the repository root so JSON and relative paths behave like GitHub Pages:
 
 ```bash
 python -m http.server 8000
 ```
 
-Open <http://localhost:8000>.
+Open <http://localhost:8000> and visit every public page.
 
-## Validation
+## Validate
 
-Before publishing:
+```bash
+python scripts/validate_site.py
+```
 
-- parse the HTML and check local links/assets
-- verify external project links
-- test at desktop and mobile widths
-- test keyboard navigation and visible focus
-- test with reduced motion enabled
-- check the browser console for errors
-- verify the deployed GitHub Pages URL after merging
+The script checks page structure, local links and images, alternative text, external-tab safety, obvious placeholders or encoding corruption, and the project JSON schema. GitHub Actions runs the same check for pull requests and pushes to `main`.
 
 ## Deployment
 
-The repository is associated with <https://simplecaci.github.io/personal-portfolio/>. There is no deployment workflow in the repository, so the GitHub Pages source and live response should be verified in repository settings after changes merge.
+The repository is associated with <https://simplecaci.github.io/personal-portfolio/>. Confirm the GitHub Pages source and live response after merging; the repository does not contain a custom deployment action.
 
 ## Authorship
 
