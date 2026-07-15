@@ -1,175 +1,117 @@
-// ======= CONFIG: map tech name -> icon path (auto-fallback included) =======
-const TECH_ICON_BASE = "../assets/icons"; // adjust to your folder (you wrote ./asset/icon)
-const TECH_ICON_EXT = "png";             // png/svg etc
+const list = document.querySelector("[data-project-list]");
+const loading = document.querySelector("[data-project-loading]");
+const errorState = document.querySelector("[data-project-error]");
 
-function slugTech(t) {
-  return String(t || "")
-    .trim()
-    .toLowerCase()
-    .replace(/\+/g, "plus")
-    .replace(/\#/g, "sharp")
-    .replace(/[^\w]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+function safeText(value, fallback) {
+  return typeof value === "string" && value.trim() ? value.trim() : fallback;
 }
 
-function techIconPath(techName) {
-  const slug = slugTech(techName);
-  return `${TECH_ICON_BASE}/${slug}.${TECH_ICON_EXT}`;
+function validUrl(value) {
+  if (typeof value !== "string") return null;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" ? url.href : null;
+  } catch {
+    return null;
+  }
 }
 
-function buildTechIcons(techArr = []) {
-  const wrap = document.createElement("div");
-  wrap.className = "project-tech-icons";
+function projectCard(project, index) {
+  const article = document.createElement("article");
+  article.className = "case-card";
 
-  for (const t of techArr) {
-    const chip = document.createElement("span");
-    chip.className = "tech-chip";
+  const visual = document.createElement("div");
+  visual.className = "case-visual";
+  const initials = document.createElement("span");
+  initials.className = "case-initials";
+  initials.setAttribute("aria-hidden", "true");
+  initials.textContent = safeText(project.title, "Project").split(/\s+/).slice(0, 2).map((word) => word[0]).join("").toUpperCase();
+  visual.append(initials);
 
-    const img = document.createElement("img");
-    img.className = "tech-icon";
-    img.alt = t;
-    img.loading = "lazy";
-    img.decoding = "async";
-
-    console.log("TECH:", t, "=>", techIconPath(t));
-
-    img.src = techIconPath(t);
-
-    // fallback: if missing icon, show text chip
-    img.onerror = () => {
-      img.remove();
-      chip.textContent = t;
-      chip.classList.add("tech-chip--text");
-    };
-
-    chip.title = t;
-    chip.dataset.label = t;
-
-    chip.appendChild(img);
-    wrap.appendChild(chip);
+  if (typeof project.image === "string" && project.image.trim()) {
+    const image = document.createElement("img");
+    image.className = "case-image";
+    image.src = project.image;
+    image.alt = safeText(project.imageAlt, "");
+    image.loading = "lazy";
+    image.addEventListener("error", () => image.remove(), { once: true });
+    visual.append(image);
   }
 
-  return wrap;
-}
-
-// ======= global =======
-let projects;
-
-// fetch JSON
-async function grabData(dataName) {
-  const requestURL = `../data/${dataName}.json`;
-  const response = await fetch(requestURL);
-  return await response.json();
-}
-
-function populateProject(project) {
-  const section = document.querySelector(".current-items-section");
-
-  const card = document.createElement("article");
-  card.className = "project-card";
-  card.dataset.date = project.date;
-
-  /* ---------------- HEADER ---------------- */
-  const header = document.createElement("div");
-  header.className = "project-header";
+  const body = document.createElement("div");
+  body.className = "case-body";
+  const top = document.createElement("div");
+  top.className = "case-topline";
+  const category = document.createElement("span");
+  category.className = "eyebrow";
+  category.textContent = `${String(index + 1).padStart(2, "0")} / ${safeText(project.category, "Experiment")}`;
+  const status = document.createElement("span");
+  status.className = "status-label";
+  status.textContent = safeText(project.status, "Status not documented");
+  top.append(category, status);
 
   const title = document.createElement("h2");
-  title.className = "project-title";
-  title.textContent = project.title;
+  title.textContent = safeText(project.title, "Untitled project");
+  const summary = document.createElement("p");
+  summary.className = "case-summary";
+  summary.textContent = safeText(project.shortDescription, "Project notes are still being written.");
 
-  const meta = document.createElement("p");
-  meta.className = "project-meta";
-  meta.textContent = `${project.status} • ${project.date}`;
+  const notes = document.createElement("dl");
+  notes.className = "case-notes";
+  [["Problem", project.problem], ["Approach", project.approach], ["Current limitation", project.limitation]].forEach(([label, value]) => {
+    const group = document.createElement("div");
+    const term = document.createElement("dt");
+    term.textContent = label;
+    const detail = document.createElement("dd");
+    detail.textContent = safeText(value, "Not documented yet.");
+    group.append(term, detail);
+    notes.append(group);
+  });
 
-  header.append(title, meta);
-
-  /* ---------------- IMAGE ---------------- */
-  if (project.image) {
-    const imgWrap = document.createElement("div");
-    imgWrap.className = "project-image-wrap";
-
-    const img = document.createElement("img");
-    img.src = project.image;
-    img.alt = project.title;
-    img.className = "project-image";
-    img.loading = "lazy";
-    img.decoding = "async";
-
-    imgWrap.appendChild(img);
-    card.appendChild(imgWrap);
+  const actions = document.createElement("div");
+  actions.className = "case-actions";
+  const tags = document.createElement("ul");
+  tags.className = "tag-list";
+  (Array.isArray(project.technologies) ? project.technologies : []).slice(0, 6).forEach((technology) => {
+    if (typeof technology !== "string" || !technology.trim()) return;
+    const item = document.createElement("li");
+    item.textContent = technology.trim();
+    tags.append(item);
+  });
+  actions.append(tags);
+  const repositoryUrl = validUrl(project.repositoryUrl);
+  if (repositoryUrl) {
+    const link = document.createElement("a");
+    link.className = "text-link";
+    link.href = repositoryUrl;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = "View repository ↗";
+    link.setAttribute("aria-label", `View ${title.textContent} repository on GitHub`);
+    actions.append(link);
   }
-
-  /* ---------------- BODY ---------------- */
-  const body = document.createElement("div");
-  body.className = "project-body";
-
-  // tech icons row (compact)
-  body.appendChild(buildTechIcons(project.tech || []));
-
-  const desc = document.createElement("p");
-  desc.className = "project-desc";
-  desc.textContent = project.description;
-
-  const details = document.createElement("div");
-  details.className = "project-details";
-
-  const problem = document.createElement("p");
-  problem.innerHTML = `<strong>Problem:</strong> ${project.problem}`;
-
-  const approach = document.createElement("p");
-  approach.innerHTML = `<strong>Approach:</strong> ${project.approach}`;
-
-  const result = document.createElement("p");
-  result.innerHTML = `<strong>Result:</strong> ${project.result}`;
-
-  const learned = document.createElement("p");
-  learned.innerHTML = `<strong>Learned:</strong> ${project.learned}`;
-
-  details.append(problem, approach, result, learned);
-  body.append(desc, details);
-
-  /* ---------------- FOOTER ---------------- */
-  const footer = document.createElement("div");
-  footer.className = "project-footer";
-
-  const link = document.createElement("a");
-  link.href = project.link;
-  link.textContent = "View Project →";
-  link.target = "_blank";
-  link.rel = "noopener noreferrer";
-  link.className = "project-link";
-
-  footer.appendChild(link);
-
-  /* ---------------- ASSEMBLE ---------------- */
-  card.append(header, body, footer);
-  section.appendChild(card);
+  body.append(top, title, summary, notes, actions);
+  article.append(visual, body);
+  return article;
 }
 
-// scrollspy
-function setupDateScrollSpy() {
-  const activeDateEl = document.getElementById("activeDate");
-  const cards = document.querySelectorAll(".project-card");
-  if (!activeDateEl || !cards.length) return;
-
-  activeDateEl.textContent = cards[0].dataset.date || "—";
-
-  const observer = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter(e => e.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-    if (visible) activeDateEl.textContent = visible.target.dataset.date || "—";
-  }, { threshold: [0.25, 0.5, 0.75], rootMargin: "-30% 0px -50% 0px" });
-
-  cards.forEach(card => observer.observe(card));
+async function loadProjects() {
+  if (!list) return;
+  try {
+    const response = await fetch("../data/projects.json", { headers: { Accept: "application/json" } });
+    if (!response.ok) throw new Error(`Project data returned ${response.status}`);
+    const data = await response.json();
+    if (!data || !Array.isArray(data.projects) || !data.projects.length) throw new Error("Project data is empty or malformed");
+    const fragment = document.createDocumentFragment();
+    data.projects.forEach((project, index) => fragment.append(projectCard(project, index)));
+    list.replaceChildren(fragment);
+    loading?.remove();
+  } catch (error) {
+    console.error("Unable to load project data", error);
+    loading?.remove();
+    errorState?.removeAttribute("hidden");
+  }
 }
 
-// run after DOM exists
-document.addEventListener("DOMContentLoaded", async () => {
-  const data = await grabData("projects");
-  projects = data.projects;
+loadProjects();
 
-  for (const project of projects) populateProject(project);
-  setupDateScrollSpy();
-});
