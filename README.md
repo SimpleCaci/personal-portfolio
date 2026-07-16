@@ -1,93 +1,51 @@
 # Personal Portfolio
 
-A personality-forward static portfolio for my projects, writing, and contact information.
+Quinton's maintained public portfolio: a handcrafted static site about applied software systems, product thinking, and learning through projects.
 
-The site uses a playful rope-and-cow visual theme while organizing project data separately from presentation code. It is intended to become the main public portfolio for SimpleCaci.
+## Direction
 
-> **Status:** active work in progress. The main pages, styling, project data, transitions, and custom cursor are present, but several sections still contain placeholder copy and links.
+The design combines a technical field notebook with a restrained rope-and-ranch motif. It keeps the original cow mascot, but core navigation and content no longer depend on a custom cursor, animation, or JavaScript.
 
-## Pages and features
+The featured work spans geospatial mission data, computer vision, desktop product design, handwriting OCR, voice interaction, and browser-based pose estimation. Project status language is intentionally specific: a repository link is not presented as a verified deployment or demo.
 
-- home page with animated hero and current-project cards
-- project gallery populated from `data/projects.json`
-- writings page
-- contact page
-- custom cursor, rope interaction, and page transitions
-- responsive CSS structure and local visual assets
+## Pages
+
+- `index.html` - homepage, selected work, method, about, and contact callout
+- `projects/` - JSON-backed project field notes with no-JavaScript and load-failure fallbacks
+- `writings/` - honest archive placeholder until finished writing exists
+- `contacts/` - verified public email and GitHub links
 
 ## Technology
 
 - semantic HTML
-- CSS
-- vanilla JavaScript
-- JSON-backed project/profile/writing data
-- static hosting compatible
-
-## Project structure
-
-```text
-index.html            home
-projects/             project gallery
-writings/             writing links
-contacts/             contact page
-data/                 profile, project, and writing content
-js/                   interactions and data rendering
-css/                  shared and page-specific styles
-assets/               icons, project art, and visual theme
-```
+- responsive CSS with custom properties
+- small progressive-enhancement JavaScript
+- JSON-backed project content
+- dependency-free static validation
 
 ## Run locally
 
-No build step is required. Use a local server so JSON requests and relative links behave consistently:
+No build step is required. Serve the repository root so JSON and relative paths behave like GitHub Pages:
 
 ```bash
 python -m http.server 8000
 ```
 
-Open [http://localhost:8000](http://localhost:8000).
+Open <http://localhost:8000> and visit every public page.
 
-## Content updates
+## Validate
 
-Update portfolio content in:
+```bash
+python scripts/validate_site.py
+```
 
-- `data/profile.json`
-- `data/projects.json`
-- `data/writings.json`
+The script checks page structure, local links and images, alternative text, external-tab safety, obvious placeholders or encoding corruption, and the project JSON schema. GitHub Actions runs the same check for pull requests and pushes to `main`.
 
-Keep claims, project status, screenshots, and links accurate. Do not add placeholder awards, metrics, or deployments.
+## Deployment
 
-## Validation status
-
-No automated tests or CI workflow currently exist. Before publishing, manually check:
-
-- every navigation and project link
-- desktop and mobile layouts
-- keyboard focus and reduced-motion behavior
-- image alternative text
-- missing JSON/image failure states
-- contact details and external links
-- the site with JavaScript disabled or unavailable
-
-## Known unfinished work
-
-- the home page contains generic introduction/project copy
-- writing entries include example placeholders
-- the contact page references an external image
-- navigation/footer sections are incomplete
-- metadata and page titles are generic
-- no deployment workflow or custom-domain documentation exists
-- the custom cursor and animation effects need accessibility fallbacks
-
-## Roadmap
-
-- replace placeholder copy with a concise developer narrative
-- feature the strongest verified projects and case studies
-- add consistent project screenshots
-- finish navigation and footer
-- add reduced-motion and keyboard-friendly behavior
-- validate and deploy the static site
-- connect the profile README to the finished portfolio
+The repository is associated with <https://simplecaci.github.io/personal-portfolio/>. Confirm the GitHub Pages source and live response after merging; the repository does not contain a custom deployment action.
 
 ## Authorship
 
 Designed and built by [SimpleCaci](https://github.com/SimpleCaci). A project license has not yet been selected.
+

@@ -1,11 +1,10 @@
 {
-    "profile": {
-        "name": "Quinton",
-        "tagline": "CS student building projects and learning systems.",
-        "now": [
-        "Building my portfolio site",
-        "Learning HTML, CSS, and JavaScript",
-        "Studying finance and investing basics"
-        ]
-    }
+  "schemaVersion": 2,
+  "profile": {
+    "name": "Quinton",
+    "tagline": "Computer science student building practical software systems and technical experiments.",
+    "interests": ["Backend and full-stack development", "Data systems and optimization", "Geospatial computing", "Computer vision", "Practical product thinking"],
+    "now": ["Strengthening project validation", "Building clearer case studies", "Learning by shipping"]
+  }
 }
+
