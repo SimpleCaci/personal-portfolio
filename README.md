@@ -20,8 +20,12 @@ The featured work spans geospatial mission data, computer vision, desktop produc
 - semantic HTML
 - responsive CSS with custom properties
 - small progressive-enhancement JavaScript
+- Anime.js 4.5 for orchestrated, accessible motion
 - JSON-backed project content
 - dependency-free static validation
+
+Anime.js is vendored at `js/vendor/anime.umd.min.js` so the deployed site keeps
+working without a package manager, build step, or third-party CDN request.
 
 ## Run locally
 

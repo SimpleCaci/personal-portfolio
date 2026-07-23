@@ -25,7 +25,28 @@
   <main id="main" class="page-shell">
     <section class="hero" aria-labelledby="hero-title">
       <div><p class="eyebrow">CS + business / California</p><h1 id="hero-title">Software for the parts of life that do not arrive as clean data.</h1><p class="hero-lead">I am Quinton. I learn by building systems around movement, speech, handwriting, mission data, and everyday routines - then documenting where they work and where they still need proof.</p><div class="button-row"><a class="button button-primary" href="./projects/index.html">View projects</a><a class="button" href="https://github.com/SimpleCaci" target="_blank" rel="noopener noreferrer">Visit GitHub ↗</a></div></div>
-      <aside class="hero-card" aria-label="Current technical interests"><p class="annotation">Field signal / 01</p><div class="field-map" aria-hidden="true"></div><dl class="field-list"><div><dt>Build</dt><dd>Backend and full-stack systems</dd></div><div><dt>Explore</dt><dd>Vision and geospatial data</dd></div><div><dt>Optimize</dt><dd>Useful, human workflows</dd></div></dl></aside>
+      <aside class="hero-card signal-lab" aria-label="Interactive map of current technical interests">
+        <div class="signal-lab-topline"><p class="annotation">Live system / 01</p><span class="signal-status"><i aria-hidden="true"></i>Online</span></div>
+        <div class="signal-stage" data-signal-stage>
+          <div class="system-core" aria-hidden="true">
+            <span class="core-halo"></span><span class="orbit orbit-a"></span><span class="orbit orbit-b"></span><span class="orbit orbit-c"></span>
+            <svg class="core-globe" viewBox="0 0 240 240" aria-hidden="true">
+              <circle cx="120" cy="120" r="72"></circle><ellipse cx="120" cy="120" rx="72" ry="25"></ellipse><ellipse cx="120" cy="120" rx="27" ry="72"></ellipse>
+              <path d="M56 88c41 18 87 18 128 0M56 152c41-18 87-18 128 0"></path>
+            </svg>
+            <span class="core-dot"></span>
+          </div>
+          <button class="signal-node node-api" type="button" data-signal="Backend systems" aria-label="Focus backend systems"><span>API</span></button>
+          <button class="signal-node node-vision" type="button" data-signal="Computer vision" aria-label="Focus computer vision"><span>CV</span></button>
+          <button class="signal-node node-geo" type="button" data-signal="Geospatial data" aria-label="Focus geospatial data"><span>GEO</span></button>
+          <button class="signal-node node-product" type="button" data-signal="Human workflows" aria-label="Focus human workflows"><span>UX</span></button>
+          <svg class="signal-links" viewBox="0 0 400 400" aria-hidden="true">
+            <path d="M200 200L82 102M200 200l125-110M200 200l121 119M200 200L76 304"></path>
+          </svg>
+          <span class="stage-axis axis-x" aria-hidden="true"></span><span class="stage-axis axis-y" aria-hidden="true"></span>
+        </div>
+        <div class="signal-readout" aria-live="polite"><span>Focus</span><strong data-signal-readout>Applied systems</strong><small>Move + select a node</small></div>
+      </aside>
     </section>
     <hr class="rope-rule">
     <section class="home-section" aria-labelledby="featured-title">

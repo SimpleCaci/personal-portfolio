@@ -13,8 +13,16 @@ if (mainScript) {
   style.href = new URL("../css/coolness.css", mainScript.src).href;
   document.head.append(style);
 
-  const coolness = document.createElement("script");
-  coolness.src = new URL("coolness.js", mainScript.src).href;
-  coolness.defer = true;
-  document.head.append(coolness);
+  const motion = document.createElement("script");
+  motion.src = new URL("motion.js", mainScript.src).href;
+  motion.defer = true;
+
+  const anime = document.createElement("script");
+  anime.src = new URL("vendor/anime.umd.min.js", mainScript.src).href;
+  anime.defer = true;
+  anime.addEventListener("load", () => document.head.append(motion), { once: true });
+  anime.addEventListener("error", () => {
+    document.documentElement.classList.add("motion-unavailable");
+  }, { once: true });
+  document.head.append(anime);
 }
