@@ -1,16 +1,19 @@
 # Personal Portfolio
 
-Quinton's maintained public portfolio: a handcrafted static site about applied software systems, product thinking, and learning through projects.
+Quinton’s public portfolio is a handcrafted static site about applied software systems, product thinking, and what he learns by building.
 
 ## Direction
 
-The design combines a technical field notebook with a restrained rope-and-ranch motif. It keeps the original cow mascot, but core navigation and content no longer depend on a custom cursor, animation, or JavaScript.
+The design mixes a technical field notebook with Spider-Noir atmosphere,
+comic-panel cuts, hard shadows, web geometry, and a small rope-and-ranch
+streak. The original cow mascot stayed. Navigation and content do not depend
+on animation or JavaScript.
 
 The featured work spans geospatial mission data, computer vision, desktop product design, handwriting OCR, voice interaction, and browser-based pose estimation. Project status language is intentionally specific: a repository link is not presented as a verified deployment or demo.
 
 ## Pages
 
-- `index.html` - homepage, selected work, method, about, and contact callout
+- `index.html` - homepage, interactive signal web, selected work, about, and availability callout
 - `projects/` - JSON-backed project field notes with no-JavaScript and load-failure fallbacks
 - `writings/` - honest archive placeholder until finished writing exists
 - `contacts/` - verified public email and GitHub links
@@ -21,14 +24,27 @@ The featured work spans geospatial mission data, computer vision, desktop produc
 - responsive CSS with custom properties
 - small progressive-enhancement JavaScript
 - Anime.js 4.5 for orchestrated, accessible motion
-- vendored Big Shoulders Display, Manrope, and Space Mono webfonts
+- vendored Anton, Barlow Condensed, and Space Mono webfonts
 - JSON-backed project content
 - dependency-free static validation
 
 Anime.js is vendored at `js/vendor/anime.umd.min.js` so the deployed site keeps
 working without a package manager, build step, or third-party CDN request.
-The motion layer includes reduced-motion fallbacks for kinetic type, sliced
-section reveals, pointer speed lines, impact bursts, and panel transitions.
+The motion layer uses timelines, center-out staggering, SVG line animation,
+spring-like reactions, scroll-triggered reveals, restrained background rain,
+pointer speed lines, and a single-panel page transition. Each component owns
+its transform so independent effects do not pull the same element in different
+directions. Ransom-note cutout letters are intentionally reserved for the main
+page openings and one noir interlude; ordinary section and project titles stay
+undistorted for a clearer visual hierarchy.
+
+The site copy was edited with the
+[Humanizer](https://github.com/blader/humanizer) guidelines. That pass removed
+stiff or promotional phrasing while preserving every project fact, limitation,
+status, link, and public contact detail.
+
+Anton and Barlow Condensed are distributed under the SIL Open Font License.
+Their license texts are included beside the font files in `assets/fonts/`.
 
 ## Accessibility and experience controls
 
@@ -40,7 +56,7 @@ are stored locally in the browser and never transmitted. Visitors can choose:
 - larger body text
 - static background texture
 - no pointer trails
-- globally paused Anime.js and CSS motion
+- globally paused Anime.js and CSS motion; navigation stays functional while paused
 
 The site also honors `prefers-reduced-motion`, retains native scrolling, uses
 semantic headings and landmarks, exposes filter state with `aria-pressed`,
@@ -50,8 +66,10 @@ tree. All core content and navigation remain available without JavaScript.
 
 ## Page-specific enhancements
 
-- Home connects the API, computer vision, geospatial, and workflow nodes to the
-  corresponding featured work.
+- Home uses a light interactive signal web to connect API, computer vision,
+  geospatial, and workflow interests to the corresponding featured work. It
+  also includes a visible “Open to internships” status and a focused
+  Spider-Noir case-file interlude.
 - Projects provides keyboard-operable category filters and lazy, decorative
   project schematics.
 - Writing receives an animated archive stamp and layered note treatment.

@@ -12,6 +12,11 @@
   const script = document.currentScript;
   const siteRoot = script ? new URL("../", script.src) : new URL("../", window.location.href);
   const asset = (path) => new URL(path, siteRoot).href;
+  const path = window.location.pathname;
+  document.body.dataset.page = path.includes("/projects/") ? "projects"
+    : path.includes("/writings/") ? "writing"
+    : path.includes("/contacts/") ? "contact"
+    : "home";
 
   document.body.classList.add("coolness-ready");
 
@@ -139,6 +144,23 @@
     const nodes = stage.querySelectorAll(".signal-node");
     const links = stage.querySelectorAll(".signal-links path");
     const readout = document.querySelector("[data-signal-readout]");
+    const lab = stage.closest(".signal-lab");
+    let selectedColor = "#2f9fc4";
+    const colorSpread = document.createElement("span");
+    colorSpread.className = "signal-color-spread";
+    colorSpread.setAttribute("aria-hidden", "true");
+    stage.prepend(colorSpread);
+
+    const previewNodeColor = (node) => {
+      const color = getComputedStyle(node).getPropertyValue("--node-color").trim() || selectedColor;
+      lab?.style.setProperty("--active-signal", color);
+    };
+    nodes.forEach((node) => {
+      node.addEventListener("pointerenter", () => previewNodeColor(node));
+      node.addEventListener("focus", () => previewNodeColor(node));
+      node.addEventListener("pointerleave", () => lab?.style.setProperty("--active-signal", selectedColor));
+      node.addEventListener("blur", () => lab?.style.setProperty("--active-signal", selectedColor));
+    });
 
     if (!reducedMotion.matches) {
       animate(rings, {
@@ -154,7 +176,7 @@
         loop: true,
         ease: "linear"
       });
-      animate(nodes, {
+      animate(stage.querySelectorAll(".signal-node > span"), {
         y: [0, -7, 0],
         scale: [1, 1.07, 1],
         duration: 2600,
@@ -200,8 +222,20 @@
 
     nodes.forEach((node) => node.addEventListener("click", () => {
       nodes.forEach((item) => item.classList.toggle("is-active", item === node));
+      const nodeColor = getComputedStyle(node).getPropertyValue("--node-color").trim() || "#2f9fc4";
+      selectedColor = nodeColor;
+      lab?.style.setProperty("--active-signal", selectedColor);
+      colorSpread.style.left = `${node.offsetLeft + node.offsetWidth / 2}px`;
+      colorSpread.style.top = `${node.offsetTop + node.offsetHeight / 2}px`;
+      colorSpread.style.setProperty("--spread-color", nodeColor);
       if (readout) readout.textContent = node.dataset.signal || "Applied systems";
       if (reducedMotion.matches) return;
+      animate(colorSpread, {
+        scale: [0, 7.5],
+        opacity: [0, .35, 0],
+        duration: 900,
+        ease: "outExpo"
+      });
       animate(node, { scale: [1, 1.35, 0.92, 1.08], duration: 720, ease: "outElastic(1, .5)" });
       animate(core, {
         scale: [1, 0.82, 1.12, 1],
@@ -233,7 +267,7 @@
     const copy = hero.querySelectorAll(".eyebrow, h1, .hero-lead, .button-row");
     const card = hero.querySelector(".hero-card");
     utils.set(copy, { opacity: 0, y: "1.4rem" });
-    if (card) utils.set(card, { opacity: 0, x: "2rem", rotate: "3deg" });
+    if (card) utils.set(card, { opacity: 0, y: "2rem" });
 
     const timeline = createTimeline({ defaults: { ease: "outExpo" } });
     timeline
@@ -245,14 +279,13 @@
       })
       .add(card, {
         opacity: [0, 1],
-        x: ["2rem", 0],
-        rotate: ["3deg", "1deg"],
+        y: ["2rem", 0],
         duration: 1050
       }, 180);
   }
 
   function initKineticType() {
-    document.querySelectorAll("h1, .section-heading h2, .home-contact h2, .page-intro h1, .contact-intro h1").forEach((heading) => {
+    document.querySelectorAll("h1, .noir-interlude h2, [data-kinetic-type]").forEach((heading) => {
       if (heading.dataset.kineticReady === "true") return;
       const label = heading.textContent.trim();
       const words = label.split(/\s+/);
@@ -263,7 +296,16 @@
       words.forEach((word, index) => {
         const span = document.createElement("span");
         span.className = "kinetic-word";
-        span.textContent = word;
+        if (word.length > 3 && (index + label.length) % 3 === 0) {
+          const cutIndex = Math.min(word.length - 2, Math.max(1, (index * 2 + label.length) % word.length));
+          span.append(document.createTextNode(word.slice(0, cutIndex)));
+          const cutout = document.createElement("span");
+          cutout.className = "cutout-letter";
+          cutout.textContent = word[cutIndex];
+          span.append(cutout, document.createTextNode(word.slice(cutIndex + 1)));
+        } else {
+          span.textContent = word;
+        }
         span.setAttribute("aria-hidden", "true");
         heading.append(span);
         if (index < words.length - 1) heading.append(document.createTextNode(" "));
@@ -303,32 +345,32 @@
       const children = element.matches(".preview, .case-card, .featured")
         ? [element]
         : [...element.children].filter((child) => !child.matches(".rope-rule"));
-      if (element.matches("main > section") && !element.matches(".hero")) {
-        utils.set(element, { clipPath: "polygon(0 47%, 18% 49%, 35% 47%, 54% 51%, 73% 48%, 100% 50%, 100% 52%, 0 53%)" });
-        animate(element, {
-          clipPath: [
-            "polygon(0 47%, 18% 49%, 35% 47%, 54% 51%, 73% 48%, 100% 50%, 100% 52%, 0 53%)",
-            "polygon(0 0, 18% 2%, 35% 0, 54% 3%, 73% 0, 100% 2%, 100% 100%, 0 98%)"
-          ],
-          duration: 720,
-          ease: "inOutExpo"
-        });
-      }
-      animate(children.length ? children : element, {
+      const targets = children.length ? children : element;
+      const isLayoutSurface = element.matches(".preview, .case-card, .featured");
+      animate(targets, {
         opacity: [0, 1],
-        x: (_, index) => [index % 2 ? "7rem" : "-7rem", 0],
-        y: ["1.5rem", 0],
-        rotate: (_, index) => [index % 2 ? "5deg" : "-5deg", "0deg"],
-        duration: 820,
+        x: isLayoutSurface ? 0 : (_, index) => [index % 2 ? "4rem" : "-4rem", 0],
+        y: isLayoutSurface ? 0 : ["1.25rem", 0],
+        duration: 720,
         delay: stagger(60, { from: "center" }),
-        ease: "outElastic(1, .48)"
+        ease: "outExpo"
       });
-    }, { threshold: 0.12, rootMargin: "0px 0px -6%" });
+    }, { threshold: 0.02, rootMargin: "0px 0px 22%" });
     observer.observe(element);
   }
 
   function addCardMotion(card) {
     if (card.dataset.motionReady === "true") return;
+    const signalColors = {
+      "Solar System Missions": "geo",
+      "Gesture-Reactive Avatar": "vision",
+      "Ambient Dashboard": "product",
+      "HandwritingConverter": "vision",
+      "VoxNav": "api",
+      "Yoga Pose Match": "vision"
+    };
+    const projectTitle = card.querySelector("h2")?.textContent?.trim();
+    if (signalColors[projectTitle]) card.dataset.signalColor = signalColors[projectTitle];
     card.dataset.motionReady = "true";
     reveal(card);
     if (reducedMotion.matches || !finePointer.matches) return;
@@ -382,6 +424,29 @@
 
   function initComicMotion() {
     if (reducedMotion.matches) return;
+    const web = document.createElement("div");
+    web.className = "noir-web-layer";
+    web.setAttribute("aria-hidden", "true");
+    const rain = document.createElement("div");
+    rain.className = "noir-rain";
+    rain.setAttribute("aria-hidden", "true");
+    const rainLines = Array.from({ length: 14 }, (_, index) => {
+      const line = document.createElement("i");
+      line.style.setProperty("--rain-x", `${4 + index * 7.2}%`);
+      line.style.setProperty("--rain-length", `${10 + index % 5 * 3}rem`);
+      rain.append(line);
+      return line;
+    });
+    document.body.prepend(web, rain);
+    animate(rainLines, {
+      y: ["-20vh", "145vh"],
+      x: [0, -65],
+      opacity: [0, .85, 0],
+      duration: (_, index) => 5200 + index % 4 * 760,
+      delay: stagger(310, { from: "center" }),
+      loop: true,
+      ease: "linear"
+    });
     const noise = document.createElement("div");
     noise.className = "kinetic-noise";
     document.body.append(noise);
@@ -446,7 +511,7 @@
   }
 
   function connectEditorialElements() {
-    document.querySelectorAll(".preview, .contact-card, .note-stack span, .method-grid li").forEach((element, index) => {
+    document.querySelectorAll(".preview, .contact-card, .note-stack span, .signal-words li").forEach((element, index) => {
       element.classList.add("signal-surface");
       element.style.setProperty("--signal-index", String(index + 1).padStart(2, "0"));
     });
@@ -462,16 +527,13 @@
           ease: "outElastic(1, .3)"
         });
       });
-      element.addEventListener("pointermove", (event) => {
-        const bounds = element.getBoundingClientRect();
-        animate(element, {
-          x: (event.clientX - bounds.left - bounds.width / 2) * 0.12,
-          y: (event.clientY - bounds.top - bounds.height / 2) * 0.18,
-          duration: 350,
-          ease: "outExpo"
-        });
-      });
-      element.addEventListener("pointerleave", () => animate(element, { x: 0, y: 0, duration: 700, ease: "outElastic(1, .45)" }));
+      element.addEventListener("pointerleave", () => animate(element, {
+        scale: 1,
+        rotate: 0,
+        boxShadow: "0 0 0 var(--ink)",
+        duration: 520,
+        ease: "outElastic(1, .45)"
+      }));
     });
 
     const notes = document.querySelectorAll(".note-stack span");
@@ -518,7 +580,7 @@
           card.hidden = !show;
           if (show) {
             visible += 1;
-            animate(card, { opacity: [0, 1], x: [cardIndex % 2 ? 55 : -55, 0], rotate: [cardIndex % 2 ? 2 : -2, 0], delay: visible * 45, duration: 650, ease: "outElastic(1, .5)" });
+            animate(card, { opacity: [0, 1], delay: visible * 45, duration: 420, ease: "outQuad" });
           }
         });
         status.textContent = `${visible} projects shown in ${group}.`;
@@ -573,6 +635,12 @@
         }
       });
     })).observe(projectList, { childList: true });
+  }
+
+  if (window.location.hash) {
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      document.querySelector(window.location.hash)?.scrollIntoView({ behavior: "auto", block: "start" });
+    }));
   }
 
   const companion = document.createElement("button");
@@ -644,21 +712,34 @@
     const wipe = document.createElement("div");
     wipe.className = "page-wipe";
     wipe.setAttribute("aria-hidden", "true");
-    wipe.innerHTML = "<span></span><span></span><span></span><b>SHIFT / NEXT PANEL</b>";
+    wipe.innerHTML = "<span></span><b>SHIFT / NEXT PANEL</b>";
     document.body.append(wipe);
+    let transitionRunning = false;
     document.addEventListener("click", (event) => {
       const link = event.target.closest("a[href]");
-      if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || link.target === "_blank" || link.hasAttribute("download")) return;
+      if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || link.target === "_blank" || link.hasAttribute("download") || document.body.classList.contains("motion-paused")) return;
       const destination = new URL(link.href, window.location.href);
       if (destination.origin !== window.location.origin || (destination.pathname === window.location.pathname && destination.hash)) return;
       event.preventDefault();
+      if (transitionRunning) return;
+      transitionRunning = true;
+      const destinationName = destination.pathname.includes("/projects/") ? "PROJECTS"
+        : destination.pathname.includes("/writings/") ? "WRITING"
+        : destination.pathname.includes("/contacts/") ? "CONTACT"
+        : destination.hash === "#about" ? "ABOUT"
+        : "HOME";
+      wipe.querySelector("b").textContent = `OPEN / ${destinationName}`;
       wipe.style.pointerEvents = "auto";
-      const panels = wipe.querySelectorAll("span");
-      utils.set(panels, { x: (_, index) => index === 2 ? "600%" : "-600%" });
-      animate(panels, { x: "0%", skewX: ["-12deg", "0deg"], delay: stagger(45), duration: 380, ease: "inExpo" });
+      const panel = wipe.querySelector("span");
+      utils.set(panel, { x: "-110%" });
       animate(wipe.querySelector("b"), {
-        opacity: [0, 1], scale: [1.6, 1], rotate: [-4, 0], duration: 300, delay: 160, ease: "outElastic(1, .65)",
-        onComplete: () => { window.location.href = destination.href; }
+        opacity: [0, 1], scale: [1.08, 1], duration: 220, delay: 180, ease: "outQuad"
+      });
+      animate(panel, {
+        x: "0%",
+        duration: 440,
+        ease: "inOutQuart",
+        onComplete: () => { window.location.assign(destination.href); }
       });
     });
   }

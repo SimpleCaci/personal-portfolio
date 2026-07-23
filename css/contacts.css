@@ -1,7 +1,7 @@
-.contact-intro { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(17rem, .55fr); gap: var(--s6); align-items: end; padding-block: var(--s7); }
+.contact-intro { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(17rem, .55fr); gap: var(--s6); align-items: end; padding-block: clamp(3.5rem, 7vw, 5.2rem); }
 .contact-intro h1 { max-width: 10ch; margin-bottom: 0; }
 .contact-intro p:last-child { color: var(--muted); }
-.contact-layout { display: grid; grid-template-columns: minmax(0, 1fr) 16rem; gap: var(--s6); padding-block: var(--s7); }
+.contact-layout { display: grid; grid-template-columns: minmax(0, 1fr) 16rem; gap: var(--s6); padding-block: clamp(3.5rem, 7vw, 5.2rem); }
 .contact-list { display: grid; gap: var(--s3); }
 .contact-card { display: grid; grid-template-columns: 8rem 1fr auto; gap: var(--s4); align-items: center; min-height: 8rem; padding: var(--s4); border: 1px solid var(--line); border-radius: var(--radius); background: rgba(255, 250, 240, .48); }
 .contact-card h2 { margin-bottom: 0; font-family: var(--serif); font-size: 1.8rem; }
