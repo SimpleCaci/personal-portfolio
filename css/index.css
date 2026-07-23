@@ -1,10 +1,10 @@
 .hero { position: relative; display: grid; min-height: calc(100vh - 5.25rem); grid-template-columns: minmax(0, 1.55fr) minmax(17rem, .55fr); gap: clamp(2rem, 7vw, 7rem); align-items: center; padding-block: var(--s7); }
 .hero::after { position: absolute; right: 1.5rem; bottom: 1.1rem; color: var(--muted); content: "FIELD NOTE 01 / APPLIED SYSTEMS"; font: .61rem var(--mono); letter-spacing: .08em; }
-.hero h1 { max-width: 12ch; margin-bottom: var(--s4); }
+.hero h1 { max-width: 11ch; margin-bottom: var(--s4); }
 .hero-lead { max-width: 43rem; color: var(--muted); font-size: clamp(1.05rem, 1.7vw, 1.3rem); }
-.hero-card { position: relative; min-width: 25rem; padding: var(--s3); border: 1px solid rgba(255,255,255,.12); border-radius: 1rem; background: #171b18; color: var(--paper); box-shadow: 0 2rem 6rem rgba(30, 24, 18, .23); transform: rotate(1deg); overflow: hidden; }
+.hero-card { position: relative; min-width: 25rem; padding: var(--s3); border: 1px solid rgba(255,255,255,.14); border-radius: 1rem; background: #102d3b; color: var(--paper); box-shadow: 0 2rem 6rem rgba(20,44,56,.24); transform: rotate(1deg); overflow: hidden; }
 .hero-card::before { position: absolute; top: -.45rem; left: 50%; width: 5rem; height: 1rem; background: rgba(173, 135, 83, .24); content: ""; transform: translateX(-50%) rotate(-2deg); }
-.signal-lab::after { position: absolute; inset: 0; background: radial-gradient(circle at 50% 42%, rgba(164,79,50,.2), transparent 42%), linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px); background-size: auto, 1.5rem 1.5rem, 1.5rem 1.5rem; content: ""; pointer-events: none; }
+.signal-lab::after { position: absolute; inset: 0; background: radial-gradient(circle at 50% 42%, rgba(237,88,61,.22), transparent 42%), linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: auto, 1.5rem 1.5rem, 1.5rem 1.5rem; content: ""; pointer-events: none; }
 .signal-lab-topline, .signal-readout { position: relative; z-index: 3; display: flex; align-items: center; justify-content: space-between; }
 .signal-lab .annotation { margin: 0; color: #c98668; }
 .signal-status { display: inline-flex; align-items: center; gap: .42rem; color: #aeb9ad; font: .56rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
@@ -12,7 +12,7 @@
 .signal-stage { position: relative; z-index: 2; height: 22rem; perspective: 55rem; transform-style: preserve-3d; touch-action: pan-y; }
 .system-core { position: absolute; top: 50%; left: 50%; width: 12rem; height: 12rem; transform: translate(-50%, -50%); transform-style: preserve-3d; }
 .core-globe { position: absolute; inset: 1.5rem; width: 9rem; height: 9rem; filter: drop-shadow(0 0 1.2rem rgba(194,100,65,.36)); }
-.core-globe circle, .core-globe ellipse, .core-globe path { fill: none; stroke: #c26441; stroke-width: 1; opacity: .62; vector-effect: non-scaling-stroke; }
+.core-globe circle, .core-globe ellipse, .core-globe path { fill: none; stroke: #ff7158; stroke-width: 1; opacity: .72; vector-effect: non-scaling-stroke; }
 .core-globe ellipse { stroke-dasharray: 3 4; }
 .core-halo { position: absolute; inset: .2rem; border: 1px solid rgba(201,134,104,.25); border-radius: 50%; box-shadow: inset 0 0 3rem rgba(164,79,50,.12), 0 0 3rem rgba(164,79,50,.1); }
 .orbit { position: absolute; inset: 0; border: 1px solid rgba(229,218,196,.22); border-radius: 50%; }
@@ -20,7 +20,7 @@
 .orbit-a { transform: rotateX(68deg) rotateZ(12deg); }
 .orbit-b { transform: rotateY(65deg) rotateZ(42deg); }
 .orbit-c { inset: -1.7rem; border-style: dashed; transform: rotateX(74deg) rotateZ(-32deg); }
-.core-dot { position: absolute; top: 50%; left: 50%; width: .6rem; height: .6rem; border-radius: 50%; background: #f0b08e; box-shadow: 0 0 0 .45rem rgba(194,100,65,.13), 0 0 1.5rem #c26441; transform: translate(-50%,-50%); }
+.core-dot { position: absolute; top: 50%; left: 50%; width: .6rem; height: .6rem; border-radius: 50%; background: #ffd063; box-shadow: 0 0 0 .45rem rgba(237,88,61,.16), 0 0 1.5rem #ff644b; transform: translate(-50%,-50%); }
 .signal-links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .signal-links path { fill: none; stroke: rgba(229,218,196,.2); stroke-width: 1; stroke-dasharray: 4 8; vector-effect: non-scaling-stroke; }
 .signal-node { position: absolute; z-index: 4; display: grid; width: 3.15rem; height: 3.15rem; place-items: center; border: 1px solid rgba(229,218,196,.28); border-radius: 50%; background: rgba(23,27,24,.78); color: #d7cbb8; box-shadow: 0 .8rem 1.8rem rgba(0,0,0,.22); cursor: pointer; font: 600 .56rem var(--mono); letter-spacing: .06em; backdrop-filter: blur(6px); }

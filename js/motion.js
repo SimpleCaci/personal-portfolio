@@ -4,7 +4,7 @@
  * visitor's reduced-motion preference.
  */
 (() => {
-  const { animate, createTimeline, stagger, utils } = window.anime || {};
+  const { animate, createTimeline, stagger, steps, utils } = window.anime || {};
   if (!animate || !createTimeline || !stagger || !utils) return;
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -14,6 +14,26 @@
   const asset = (path) => new URL(path, siteRoot).href;
 
   document.body.classList.add("coolness-ready");
+
+  const progressRail = document.createElement("div");
+  progressRail.className = "signal-progress";
+  progressRail.setAttribute("aria-hidden", "true");
+  progressRail.innerHTML = "<span></span><i></i>";
+  document.body.append(progressRail);
+  const progressFill = progressRail.querySelector("span");
+  const progressMarker = progressRail.querySelector("i");
+  let progressFrame;
+  const updateProgress = () => {
+    progressFrame = null;
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+    progressFill.style.transform = `scaleY(${progress})`;
+    progressMarker.style.transform = `translateY(${progress * Math.max(0, window.innerHeight - 34)}px)`;
+  };
+  window.addEventListener("scroll", () => {
+    if (!progressFrame) progressFrame = requestAnimationFrame(updateProgress);
+  }, { passive: true });
+  updateProgress();
 
   const header = document.querySelector(".site-header");
   if (header) {
@@ -166,6 +186,44 @@
       }, 180);
   }
 
+  function initKineticType() {
+    document.querySelectorAll("h1, .section-heading h2, .home-contact h2, .page-intro h1, .contact-intro h1").forEach((heading) => {
+      if (heading.dataset.kineticReady === "true") return;
+      const label = heading.textContent.trim();
+      const words = label.split(/\s+/);
+      heading.textContent = "";
+      heading.classList.add("kinetic-heading");
+      heading.dataset.kineticReady = "true";
+      heading.setAttribute("aria-label", label);
+      words.forEach((word, index) => {
+        const span = document.createElement("span");
+        span.className = "kinetic-word";
+        span.textContent = word;
+        span.setAttribute("aria-hidden", "true");
+        heading.append(span);
+        if (index < words.length - 1) heading.append(document.createTextNode(" "));
+        if (!reducedMotion.matches && finePointer.matches) {
+          span.addEventListener("pointerenter", () => animate(span, {
+            scaleY: [1, 1.12],
+            scaleX: [1, 0.94],
+            fontVariationSettings: ['"wght" 540', '"wght" 820'],
+            color: "var(--rust)",
+            duration: 420,
+            ease: "outExpo"
+          }));
+          span.addEventListener("pointerleave", () => animate(span, {
+            scaleX: 1,
+            scaleY: 1,
+            fontVariationSettings: '"wght" 540',
+            color: "var(--text)",
+            duration: 650,
+            ease: "outElastic(1, .5)"
+          }));
+        }
+      });
+    });
+  }
+
   function reveal(element) {
     element.classList.add("cool-reveal");
     if (reducedMotion.matches || !("IntersectionObserver" in window)) {
@@ -180,12 +238,25 @@
       const children = element.matches(".preview, .case-card, .featured")
         ? [element]
         : [...element.children].filter((child) => !child.matches(".rope-rule"));
+      if (element.matches("main > section") && !element.matches(".hero")) {
+        utils.set(element, { clipPath: "polygon(0 47%, 18% 49%, 35% 47%, 54% 51%, 73% 48%, 100% 50%, 100% 52%, 0 53%)" });
+        animate(element, {
+          clipPath: [
+            "polygon(0 47%, 18% 49%, 35% 47%, 54% 51%, 73% 48%, 100% 50%, 100% 52%, 0 53%)",
+            "polygon(0 0, 18% 2%, 35% 0, 54% 3%, 73% 0, 100% 2%, 100% 100%, 0 98%)"
+          ],
+          duration: 720,
+          ease: "inOutExpo"
+        });
+      }
       animate(children.length ? children : element, {
         opacity: [0, 1],
+        x: (_, index) => [index % 2 ? "7rem" : "-7rem", 0],
         y: ["1.5rem", 0],
-        duration: 760,
-        delay: stagger(75),
-        ease: "outExpo"
+        rotate: (_, index) => [index % 2 ? "5deg" : "-5deg", "0deg"],
+        duration: 820,
+        delay: stagger(60, { from: "center" }),
+        ease: "outElastic(1, .48)"
       });
     }, { threshold: 0.12, rootMargin: "0px 0px -6%" });
     observer.observe(element);
@@ -212,16 +283,152 @@
     });
   }
 
+  const sceneMarkup = {
+    "Solar System Missions": `<svg class="project-scene" viewBox="0 0 320 220" aria-hidden="true"><circle class="scene-faint" cx="160" cy="110" r="72"/><ellipse class="scene-line scene-dash scene-orbit" cx="160" cy="110" rx="125" ry="50"/><circle class="scene-fill" cx="160" cy="110" r="25"/><circle class="scene-dot" cx="276" cy="92" r="6"/><path class="scene-line" d="M35 174C91 125 199 184 285 55"/></svg>`,
+    "Gesture-Reactive Avatar": `<svg class="project-scene" viewBox="0 0 320 220" aria-hidden="true"><path class="scene-line" d="M107 76l-24-29 42 14M213 76l24-29-42 14M96 95c0-44 128-44 128 0v45c0 52-128 52-128 0z"/><g class="scene-blink"><path class="scene-line" d="M119 113q14-12 28 0M173 113q14-12 28 0"/></g><path class="scene-line" d="M136 151q24 18 48 0"/></svg>`,
+    "Ambient Dashboard": `<svg class="project-scene" viewBox="0 0 320 220" aria-hidden="true"><rect class="scene-paper" x="38" y="38" width="244" height="144" rx="10"/><path class="scene-faint" d="M38 70h244M126 70v112"/><circle class="scene-fill scene-wave" cx="81" cy="123" r="27"/><path class="scene-line" d="M151 101h92M151 122h68M151 143h81"/></svg>`,
+    "HandwritingConverter": `<svg class="project-scene" viewBox="0 0 320 220" aria-hidden="true"><rect class="scene-paper" x="56" y="35" width="94" height="145" rx="4" transform="rotate(-5 103 107)"/><rect class="scene-paper" x="169" y="35" width="94" height="145" rx="4" transform="rotate(4 216 107)"/><path class="scene-line" d="M74 78q19-22 42 2t19-4M72 103q25 15 60-3M184 76h60M184 96h47M184 116h56M184 136h39"/><path class="scene-line scene-scan" d="M45 109h230"/></svg>`,
+    "VoxNav": `<svg class="project-scene" viewBox="0 0 320 220" aria-hidden="true"><g class="scene-wave"><path class="scene-line" d="M31 110h24l9-42 16 86 15-64 13 39 15-74 18 108 17-83 15 51 12-21h29"/></g><rect class="scene-paper" x="210" y="61" width="82" height="98" rx="5"/><path class="scene-line" d="M223 84h48M223 105h35M223 126h44"/></svg>`,
+    "Yoga Pose Match": `<svg class="project-scene" viewBox="0 0 320 220" aria-hidden="true"><g class="scene-limb"><circle class="scene-fill" cx="160" cy="48" r="18"/><path class="scene-line" d="M160 66v55M160 82l-69 35M160 82l68 33M160 121l-48 66M160 121l48 66"/></g><path class="scene-faint scene-dash" d="M76 201h168M63 30v171M257 30v171"/></svg>`
+  };
+
+  function hydrateProjectScene(card) {
+    if (card.dataset.sceneReady === "true") return;
+    const title = card.querySelector("h2")?.textContent?.trim();
+    const visual = card.querySelector(".case-visual");
+    if (!visual || !sceneMarkup[title]) return;
+    const svg = new DOMParser().parseFromString(sceneMarkup[title], "image/svg+xml").documentElement;
+    visual.append(document.importNode(svg, true));
+    visual.classList.add("has-scene");
+    card.dataset.sceneReady = "true";
+  }
+
+  function initComicMotion() {
+    if (reducedMotion.matches) return;
+    const noise = document.createElement("div");
+    noise.className = "kinetic-noise";
+    document.body.append(noise);
+    animate(noise, {
+      x: () => `${Math.random() * 4 - 2}px`,
+      y: () => `${Math.random() * 4 - 2}px`,
+      duration: 100,
+      loop: true,
+      ease: steps(3)
+    });
+    document.querySelectorAll(".mobile-nav").forEach((menu) => {
+      menu.addEventListener("toggle", () => {
+        if (!menu.open) return;
+        const links = menu.querySelectorAll("a");
+        utils.set(links, { opacity: 0, x: "2.5rem", skewX: "-10deg" });
+        animate(links, { opacity: [0, 1], x: ["2.5rem", 0], skewX: ["-10deg", 0], delay: stagger(45), duration: 520, ease: "outElastic(1, .62)" });
+      });
+    });
+
+    const burst = (x, y) => {
+      const impact = document.createElement("span");
+      impact.className = "click-impact";
+      impact.style.left = `${x}px`;
+      impact.style.top = `${y}px`;
+      for (let index = 0; index < 10; index += 1) {
+        const ray = document.createElement("i");
+        ray.style.setProperty("--ray-angle", `${index * 36}deg`);
+        impact.append(ray);
+      }
+      document.body.append(impact);
+      animate(impact.querySelectorAll("i"), { scaleX: [0, 1], opacity: [1, 0], delay: stagger(12), duration: 520, ease: "outExpo", onComplete: () => impact.remove() });
+    };
+    document.addEventListener("pointerdown", (event) => burst(event.clientX, event.clientY), { passive: true });
+
+    if (!finePointer.matches) return;
+    const field = document.createElement("div");
+    field.className = "action-field";
+    const lines = Array.from({ length: 7 }, () => {
+      const line = document.createElement("i");
+      field.append(line);
+      return line;
+    });
+    document.body.append(field);
+    let lastX = 0;
+    let lastY = 0;
+    let lineIndex = 0;
+    document.addEventListener("pointermove", (event) => {
+      const dx = event.clientX - lastX;
+      const dy = event.clientY - lastY;
+      const speed = Math.hypot(dx, dy);
+      lastX = event.clientX;
+      lastY = event.clientY;
+      if (speed < 12) return;
+      const line = lines[lineIndex++ % lines.length];
+      const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+      line.style.left = `${event.clientX}px`;
+      line.style.top = `${event.clientY}px`;
+      line.style.width = `${Math.min(150, 24 + speed * 1.35)}px`;
+      line.style.transform = `rotate(${angle}deg) translateX(-100%)`;
+      animate(line, { opacity: [0.72, 0], scaleX: [1, 0.15], duration: 430, ease: "outExpo" });
+    }, { passive: true });
+  }
+
+  function connectEditorialElements() {
+    document.querySelectorAll(".preview, .contact-card, .note-stack span, .method-grid li").forEach((element, index) => {
+      element.classList.add("signal-surface");
+      element.style.setProperty("--signal-index", String(index + 1).padStart(2, "0"));
+    });
+
+    document.querySelectorAll(".button, .text-link, .desktop-nav a").forEach((element) => {
+      if (reducedMotion.matches || !finePointer.matches) return;
+      element.addEventListener("pointerenter", () => {
+        animate(element, {
+          scale: [1, 1.25, 1.08],
+          rotate: [0, -2, 0],
+          boxShadow: ["0 0 0 var(--ink)", ".42rem .42rem 0 var(--ink)"],
+          duration: 460,
+          ease: "outElastic(1, .3)"
+        });
+      });
+      element.addEventListener("pointermove", (event) => {
+        const bounds = element.getBoundingClientRect();
+        animate(element, {
+          x: (event.clientX - bounds.left - bounds.width / 2) * 0.12,
+          y: (event.clientY - bounds.top - bounds.height / 2) * 0.18,
+          duration: 350,
+          ease: "outExpo"
+        });
+      });
+      element.addEventListener("pointerleave", () => animate(element, { x: 0, y: 0, duration: 700, ease: "outElastic(1, .45)" }));
+    });
+
+    const notes = document.querySelectorAll(".note-stack span");
+    if (notes.length && !reducedMotion.matches) {
+      animate(notes, {
+        x: [18, 0],
+        rotate: (_, index) => index % 2 ? [5, 1.5] : [-5, -1],
+        opacity: [0, 1],
+        delay: stagger(130),
+        duration: 850,
+        ease: "outExpo"
+      });
+    }
+  }
+
+  initKineticType();
   initSignalLab();
   playHeroIntro();
   document.querySelectorAll("main > section:not(.hero), .preview, .featured").forEach(reveal);
-  document.querySelectorAll(".case-card").forEach(addCardMotion);
+  connectEditorialElements();
+  initComicMotion();
+  document.querySelectorAll(".case-card").forEach((card) => {
+    hydrateProjectScene(card);
+    addCardMotion(card);
+  });
 
   const projectList = document.querySelector("[data-project-list]");
   if (projectList) {
     new MutationObserver((mutations) => mutations.forEach((mutation) => {
       mutation.addedNodes.forEach((node) => {
-        if (node instanceof HTMLElement && node.matches(".case-card")) addCardMotion(node);
+        if (node instanceof HTMLElement && node.matches(".case-card")) {
+          hydrateProjectScene(node);
+          addCardMotion(node);
+        }
       });
     })).observe(projectList, { childList: true });
   }
@@ -270,6 +477,7 @@
     const wipe = document.createElement("div");
     wipe.className = "page-wipe";
     wipe.setAttribute("aria-hidden", "true");
+    wipe.innerHTML = "<span></span><span></span><span></span><b>SHIFT / NEXT PANEL</b>";
     document.body.append(wipe);
     document.addEventListener("click", (event) => {
       const link = event.target.closest("a[href]");
@@ -278,10 +486,11 @@
       if (destination.origin !== window.location.origin || (destination.pathname === window.location.pathname && destination.hash)) return;
       event.preventDefault();
       wipe.style.pointerEvents = "auto";
-      animate(wipe, {
-        clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"],
-        duration: 380,
-        ease: "inOutQuart",
+      const panels = wipe.querySelectorAll("span");
+      utils.set(panels, { x: "-115%" });
+      animate(panels, { x: ["-115%", "0%"], skewX: ["-12deg", "0deg"], delay: stagger(65), duration: 520, ease: "inExpo" });
+      animate(wipe.querySelector("b"), {
+        opacity: [0, 1], scale: [1.6, 1], rotate: [-4, 0], duration: 420, delay: 240, ease: "outElastic(1, .65)",
         onComplete: () => { window.location.href = destination.href; }
       });
     });

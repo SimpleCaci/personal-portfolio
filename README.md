@@ -21,11 +21,14 @@ The featured work spans geospatial mission data, computer vision, desktop produc
 - responsive CSS with custom properties
 - small progressive-enhancement JavaScript
 - Anime.js 4.5 for orchestrated, accessible motion
+- vendored Big Shoulders Display, Manrope, and Space Mono webfonts
 - JSON-backed project content
 - dependency-free static validation
 
 Anime.js is vendored at `js/vendor/anime.umd.min.js` so the deployed site keeps
 working without a package manager, build step, or third-party CDN request.
+The motion layer includes reduced-motion fallbacks for kinetic type, sliced
+section reveals, pointer speed lines, impact bursts, and panel transitions.
 
 ## Run locally
 
