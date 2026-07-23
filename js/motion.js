@@ -4,7 +4,7 @@
  * visitor's reduced-motion preference.
  */
 (() => {
-  const { animate, createTimeline, stagger, steps, utils } = window.anime || {};
+  const { animate, createTimeline, engine, stagger, steps, utils } = window.anime || {};
   if (!animate || !createTimeline || !stagger || !utils) return;
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -14,6 +14,63 @@
   const asset = (path) => new URL(path, siteRoot).href;
 
   document.body.classList.add("coolness-ready");
+
+  function initAccessibilityPanel() {
+    const saved = (() => {
+      try { return JSON.parse(localStorage.getItem("portfolio-settings") || "{}"); }
+      catch { return {}; }
+    })();
+    const apply = (settings) => {
+      document.body.dataset.intensity = settings.intensity || "dynamic";
+      document.body.classList.toggle("user-high-contrast", Boolean(settings.contrast));
+      document.body.classList.toggle("user-large-text", Boolean(settings.largeText));
+      document.body.classList.toggle("user-no-texture", Boolean(settings.noTexture));
+      document.body.classList.toggle("user-no-trails", Boolean(settings.noTrails));
+      document.body.classList.toggle("motion-paused", Boolean(settings.paused));
+      if (settings.paused) engine?.pause(); else engine?.resume();
+    };
+    apply(saved);
+
+    const panel = document.createElement("details");
+    panel.className = "experience-panel";
+    panel.innerHTML = `
+      <summary aria-label="Open display and accessibility settings">FX <span>Settings</span></summary>
+      <form>
+        <strong>Experience controls</strong>
+        <label>Motion intensity
+          <select name="intensity">
+            <option value="calm">Calm</option>
+            <option value="dynamic">Dynamic</option>
+            <option value="maximum">Maximum</option>
+          </select>
+        </label>
+        <label><input type="checkbox" name="contrast"> Higher contrast</label>
+        <label><input type="checkbox" name="largeText"> Larger body text</label>
+        <label><input type="checkbox" name="noTexture"> Disable texture jitter</label>
+        <label><input type="checkbox" name="noTrails"> Disable pointer trails</label>
+        <label><input type="checkbox" name="paused"> Pause all motion</label>
+        <small>Saved on this device.</small>
+      </form>`;
+    const form = panel.querySelector("form");
+    form.elements.intensity.value = saved.intensity || "dynamic";
+    ["contrast", "largeText", "noTexture", "noTrails", "paused"].forEach((name) => {
+      form.elements[name].checked = Boolean(saved[name]);
+    });
+    form.addEventListener("change", () => {
+      const settings = {
+        intensity: form.elements.intensity.value,
+        contrast: form.elements.contrast.checked,
+        largeText: form.elements.largeText.checked,
+        noTexture: form.elements.noTexture.checked,
+        noTrails: form.elements.noTrails.checked,
+        paused: form.elements.paused.checked
+      };
+      try { localStorage.setItem("portfolio-settings", JSON.stringify(settings)); } catch {}
+      apply(settings);
+    });
+    document.body.append(panel);
+  }
+  initAccessibilityPanel();
 
   const progressRail = document.createElement("div");
   progressRail.className = "signal-progress";
@@ -159,6 +216,14 @@
         delay: stagger(80),
         ease: "inOutQuad"
       });
+      const targetTitle = {
+        "Backend systems": "Ambient Dashboard",
+        "Computer vision": "Gesture-Reactive Avatar",
+        "Geospatial data": "Solar System Missions",
+        "Human workflows": "HandwritingConverter"
+      }[node.dataset.signal];
+      const heading = [...document.querySelectorAll("h3")].find((item) => item.textContent.trim() === targetTitle);
+      heading?.closest("article")?.scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth", block: "center" });
     }));
   }
 
@@ -303,6 +368,18 @@
     card.dataset.sceneReady = "true";
   }
 
+  const sceneObserver = "IntersectionObserver" in window
+    ? new IntersectionObserver((entries) => entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        hydrateProjectScene(entry.target);
+        sceneObserver.unobserve(entry.target);
+      }), { rootMargin: "320px 0px" })
+    : null;
+  function queueProjectScene(card) {
+    if (sceneObserver) sceneObserver.observe(card);
+    else hydrateProjectScene(card);
+  }
+
   function initComicMotion() {
     if (reducedMotion.matches) return;
     const noise = document.createElement("div");
@@ -410,24 +487,89 @@
     }
   }
 
+  function initProjectFilters() {
+    const list = document.querySelector("[data-project-list]");
+    if (!list || list.dataset.filtersReady === "true" || !list.children.length) return;
+    list.dataset.filtersReady = "true";
+    const groups = {
+      all: [],
+      vision: ["Gesture-Reactive Avatar", "HandwritingConverter", "Yoga Pose Match"],
+      systems: ["Solar System Missions", "VoxNav"],
+      interfaces: ["Ambient Dashboard"]
+    };
+    const controls = document.createElement("div");
+    controls.className = "project-filters";
+    controls.setAttribute("aria-label", "Filter projects");
+    const status = document.createElement("span");
+    status.className = "visually-hidden";
+    status.setAttribute("role", "status");
+    Object.keys(groups).forEach((group, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = group;
+      button.dataset.filter = group;
+      button.setAttribute("aria-pressed", index === 0 ? "true" : "false");
+      button.addEventListener("click", () => {
+        controls.querySelectorAll("button").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        let visible = 0;
+        [...list.children].forEach((card, cardIndex) => {
+          const title = card.querySelector("h2")?.textContent.trim();
+          const show = group === "all" || groups[group].includes(title);
+          card.hidden = !show;
+          if (show) {
+            visible += 1;
+            animate(card, { opacity: [0, 1], x: [cardIndex % 2 ? 55 : -55, 0], rotate: [cardIndex % 2 ? 2 : -2, 0], delay: visible * 45, duration: 650, ease: "outElastic(1, .5)" });
+          }
+        });
+        status.textContent = `${visible} projects shown in ${group}.`;
+      });
+      controls.append(button);
+    });
+    controls.append(status);
+    list.before(controls);
+  }
+
+  function initPageSignatures() {
+    const mascot = document.querySelector(".contact-mascot");
+    if (mascot) {
+      const signal = document.createElement("div");
+      signal.className = "contact-signal";
+      signal.setAttribute("aria-hidden", "true");
+      signal.innerHTML = "<i></i><i></i><i></i><span>CHANNEL OPEN</span>";
+      mascot.append(signal);
+    }
+    const writing = document.querySelector(".coming-soon");
+    if (writing) {
+      const stamp = document.createElement("span");
+      stamp.className = "archive-stamp";
+      stamp.textContent = "IN PROGRESS";
+      stamp.setAttribute("aria-hidden", "true");
+      writing.append(stamp);
+      if (!reducedMotion.matches) animate(stamp, { scale: [2.4, .88, 1], rotate: [-12, 4, -3], opacity: [0, 1], duration: 800, ease: "outElastic(1, .45)" });
+    }
+  }
+
   initKineticType();
   initSignalLab();
   playHeroIntro();
   document.querySelectorAll("main > section:not(.hero), .preview, .featured").forEach(reveal);
   connectEditorialElements();
   initComicMotion();
+  initPageSignatures();
   document.querySelectorAll(".case-card").forEach((card) => {
-    hydrateProjectScene(card);
+    queueProjectScene(card);
     addCardMotion(card);
   });
+  initProjectFilters();
 
   const projectList = document.querySelector("[data-project-list]");
   if (projectList) {
     new MutationObserver((mutations) => mutations.forEach((mutation) => {
       mutation.addedNodes.forEach((node) => {
         if (node instanceof HTMLElement && node.matches(".case-card")) {
-          hydrateProjectScene(node);
+          queueProjectScene(node);
           addCardMotion(node);
+          initProjectFilters();
         }
       });
     })).observe(projectList, { childList: true });
@@ -452,7 +594,9 @@
   ];
   let messageIndex = -1;
   let messageTimer;
+  let cowClicks = 0;
   companion.addEventListener("click", () => {
+    cowClicks += 1;
     messageIndex = (messageIndex + 1) % messages.length;
     message.textContent = messages[messageIndex];
     message.classList.add("is-visible");
@@ -470,6 +614,29 @@
       message.classList.remove("is-visible");
       if (!reducedMotion.matches) animate(message, { opacity: 0, y: -5, duration: 220, ease: "inQuad" });
     }, 3200);
+    if (cowClicks === 5) {
+      document.body.classList.add("cow-mode");
+      message.textContent = "SECRET HERD MODE UNLOCKED.";
+      message.classList.add("is-visible");
+      const herd = Array.from({ length: 9 }, (_, index) => {
+        const particle = document.createElement("span");
+        particle.className = "cow-particle";
+        particle.textContent = index % 3 === 0 ? "MOO!" : "★";
+        document.body.append(particle);
+        return particle;
+      });
+      animate(herd, {
+        x: (_, index) => `${(index - 4) * 11}vw`,
+        y: () => `${-35 - Math.random() * 45}vh`,
+        rotate: () => `${Math.random() * 180 - 90}deg`,
+        scale: [0, 1.2, 0],
+        opacity: [0, 1, 0],
+        delay: stagger(45, { from: "center" }),
+        duration: 1500,
+        ease: "outExpo",
+        onComplete: () => herd.forEach((particle) => particle.remove())
+      });
+    }
   });
   document.body.append(message, companion);
 
@@ -487,10 +654,10 @@
       event.preventDefault();
       wipe.style.pointerEvents = "auto";
       const panels = wipe.querySelectorAll("span");
-      utils.set(panels, { x: (_, index) => index === 2 ? "220%" : "-220%" });
-      animate(panels, { x: "0%", skewX: ["-12deg", "0deg"], delay: stagger(65), duration: 520, ease: "inExpo" });
+      utils.set(panels, { x: (_, index) => index === 2 ? "600%" : "-600%" });
+      animate(panels, { x: "0%", skewX: ["-12deg", "0deg"], delay: stagger(45), duration: 380, ease: "inExpo" });
       animate(wipe.querySelector("b"), {
-        opacity: [0, 1], scale: [1.6, 1], rotate: [-4, 0], duration: 420, delay: 240, ease: "outElastic(1, .65)",
+        opacity: [0, 1], scale: [1.6, 1], rotate: [-4, 0], duration: 300, delay: 160, ease: "outElastic(1, .65)",
         onComplete: () => { window.location.href = destination.href; }
       });
     });

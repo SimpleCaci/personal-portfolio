@@ -30,6 +30,34 @@ working without a package manager, build step, or third-party CDN request.
 The motion layer includes reduced-motion fallbacks for kinetic type, sliced
 section reveals, pointer speed lines, impact bursts, and panel transitions.
 
+## Accessibility and experience controls
+
+The fixed `FX` control opens a keyboard-accessible settings panel. Preferences
+are stored locally in the browser and never transmitted. Visitors can choose:
+
+- Calm, Dynamic, or Maximum motion intensity
+- higher color contrast
+- larger body text
+- static background texture
+- no pointer trails
+- globally paused Anime.js and CSS motion
+
+The site also honors `prefers-reduced-motion`, retains native scrolling, uses
+semantic headings and landmarks, exposes filter state with `aria-pressed`,
+announces project-filter results through a live region, preserves visible focus
+states, and keeps decorative SVG and motion layers out of the accessibility
+tree. All core content and navigation remain available without JavaScript.
+
+## Page-specific enhancements
+
+- Home connects the API, computer vision, geospatial, and workflow nodes to the
+  corresponding featured work.
+- Projects provides keyboard-operable category filters and lazy, decorative
+  project schematics.
+- Writing receives an animated archive stamp and layered note treatment.
+- Contact uses a decorative channel-open signal around the existing mascot.
+- Clicking the field assistant five times unlocks an optional visual easter egg.
+
 ## Run locally
 
 No build step is required. Serve the repository root so JSON and relative paths behave like GitHub Pages:

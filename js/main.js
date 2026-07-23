@@ -11,13 +11,13 @@ if (mainScript) {
   const style = document.createElement("link");
   style.rel = "stylesheet";
   const styleUrl = new URL("../css/coolness.css", mainScript.src);
-  styleUrl.searchParams.set("v", "20260723-3");
+  styleUrl.searchParams.set("v", "20260723-4");
   style.href = styleUrl.href;
   document.head.append(style);
 
   const motion = document.createElement("script");
   const motionUrl = new URL("motion.js", mainScript.src);
-  motionUrl.searchParams.set("v", "20260723-3");
+  motionUrl.searchParams.set("v", "20260723-4");
   motion.src = motionUrl.href;
   motion.defer = true;
 
