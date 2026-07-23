@@ -10,15 +10,21 @@ const mainScript = document.currentScript;
 if (mainScript) {
   const style = document.createElement("link");
   style.rel = "stylesheet";
-  style.href = new URL("../css/coolness.css", mainScript.src).href;
+  const styleUrl = new URL("../css/coolness.css", mainScript.src);
+  styleUrl.searchParams.set("v", "20260723-3");
+  style.href = styleUrl.href;
   document.head.append(style);
 
   const motion = document.createElement("script");
-  motion.src = new URL("motion.js", mainScript.src).href;
+  const motionUrl = new URL("motion.js", mainScript.src);
+  motionUrl.searchParams.set("v", "20260723-3");
+  motion.src = motionUrl.href;
   motion.defer = true;
 
   const anime = document.createElement("script");
-  anime.src = new URL("vendor/anime.umd.min.js", mainScript.src).href;
+  const animeUrl = new URL("vendor/anime.umd.min.js", mainScript.src);
+  animeUrl.searchParams.set("v", "4.5.0");
+  anime.src = animeUrl.href;
   anime.defer = true;
   anime.addEventListener("load", () => document.head.append(motion), { once: true });
   anime.addEventListener("error", () => {

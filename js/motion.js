@@ -487,8 +487,8 @@
       event.preventDefault();
       wipe.style.pointerEvents = "auto";
       const panels = wipe.querySelectorAll("span");
-      utils.set(panels, { x: "-115%" });
-      animate(panels, { x: ["-115%", "0%"], skewX: ["-12deg", "0deg"], delay: stagger(65), duration: 520, ease: "inExpo" });
+      utils.set(panels, { x: (_, index) => index === 2 ? "220%" : "-220%" });
+      animate(panels, { x: "0%", skewX: ["-12deg", "0deg"], delay: stagger(65), duration: 520, ease: "inExpo" });
       animate(wipe.querySelector("b"), {
         opacity: [0, 1], scale: [1.6, 1], rotate: [-4, 0], duration: 420, delay: 240, ease: "outElastic(1, .65)",
         onComplete: () => { window.location.href = destination.href; }

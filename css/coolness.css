@@ -182,10 +182,10 @@ body.coolness-ready::after {
   pointer-events: none;
   overflow: hidden;
 }
-.page-wipe > span { position: absolute; top: -10%; bottom: -10%; width: 46%; background: var(--ink); transform: translateX(-115%); }
+.page-wipe > span { position: absolute; top: -10%; bottom: -10%; width: 46%; background: var(--ink); transform: translateX(-220%); }
 .page-wipe > span:nth-child(1) { left: -5%; clip-path: polygon(0 0, 87% 0, 100% 45%, 82% 100%, 0 100%); }
 .page-wipe > span:nth-child(2) { left: 29%; background: var(--rust); clip-path: polygon(14% 0, 100% 0, 86% 100%, 0 100%); }
-.page-wipe > span:nth-child(3) { right: -5%; clip-path: polygon(16% 0, 100% 0, 100% 100%, 0 100%, 13% 48%); transform: translateX(115%); }
+.page-wipe > span:nth-child(3) { right: -5%; clip-path: polygon(16% 0, 100% 0, 100% 100%, 0 100%, 13% 48%); transform: translateX(220%); }
 .page-wipe > b { position: absolute; top: 50%; left: 50%; z-index: 2; color: var(--paper); font: 700 clamp(1rem,3vw,2rem) var(--mono); letter-spacing: .08em; opacity: 0; transform: translate(-50%,-50%); white-space: nowrap; }
 .case-card { border-width: 2px; border-radius: .12rem; clip-path: polygon(0 0, 98% 0, 100% 4%, 100% 100%, 2% 100%, 0 96%); }
 .coming-soon, .contact-card { border-width: 2px; border-radius: .12rem; }
