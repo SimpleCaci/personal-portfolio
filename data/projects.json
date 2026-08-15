@@ -7,7 +7,7 @@
       "shortDescription": "Explore spacecraft missions through NASA JPL Horizons data and generated trajectory plots.",
       "category": "Geospatial systems",
       "technologies": ["Python", "Flask", "JPL Horizons", "Matplotlib", "Three.js"],
-      "status": "Hackathon prototype under maintenance",
+      "status": "3rd Place — Turion Space Hackathon 2025",
       "repositoryUrl": "https://github.com/SimpleCaci/Turion-Hackathon-2025",
       "year": "2025",
       "problem": "Real mission data is powerful, but difficult to explore without specialized tools.",
@@ -83,6 +83,20 @@
       "problem": "Pose-estimation data needs friendly feedback before it feels like a movement game.",
       "approach": "Compare browser camera landmarks to data-derived angle targets and name the joint furthest from its target.",
       "limitation": "Camera behavior and pose accuracy still require cross-device testing.",
+      "featured": true
+    },
+    {
+      "id": "stop-time-blindness",
+      "title": "Stop Time Blindness",
+      "shortDescription": "A browser focus timer that keeps task progress visible in Picture-in-Picture.",
+      "category": "Productivity experiment",
+      "technologies": ["JavaScript", "Canvas", "Picture-in-Picture", "LocalStorage"],
+      "status": "Live browser prototype",
+      "repositoryUrl": "https://github.com/SimpleCaci/Stop-Time-Blindness",
+      "year": "2026",
+      "problem": "Elapsed time becomes easy to lose track of when a timer is hidden behind active work.",
+      "approach": "Render task progress to a canvas, stream it into an always-on-top Picture-in-Picture window, and keep a private local session log.",
+      "limitation": "Picture-in-Picture behavior and media restrictions still vary across browsers and operating systems.",
       "featured": true
     }
   ]

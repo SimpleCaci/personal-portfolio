@@ -9,7 +9,7 @@ comic-panel cuts, hard shadows, web geometry, and a small rope-and-ranch
 streak. The original cow mascot stayed. Navigation and content do not depend
 on animation or JavaScript.
 
-The featured work spans geospatial mission data, computer vision, desktop product design, handwriting OCR, voice interaction, and browser-based pose estimation. Project status language is intentionally specific: a repository link is not presented as a verified deployment or demo.
+The featured work spans geospatial mission data, computer vision, handwriting OCR, voice interaction, browser-based pose estimation, and practical productivity experiments. Project status language is intentionally specific: a repository link is not presented as a verified deployment or demo.
 
 ## Pages
 
