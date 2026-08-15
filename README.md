@@ -1,13 +1,13 @@
 # Personal Portfolio
 
-Quinton’s public portfolio is a handcrafted static site about applied software systems, product thinking, and what he learns by building.
+My personal portfolio about applied software systems, product thinking, and more.
 
 ## Direction
 
 The design mixes a technical field notebook with Spider-Noir atmosphere,
 comic-panel cuts, hard shadows, web geometry, and a small rope-and-ranch
 streak. The original cow mascot stayed. Navigation and content do not depend
-on animation or JavaScript.
+on animation or JavaScript... this is done to keep it more accessible.
 
 The featured work spans geospatial mission data, computer vision, handwriting OCR, voice interaction, browser-based pose estimation, and practical productivity experiments.
 
@@ -37,11 +37,6 @@ its transform so independent effects do not pull the same element in different
 directions. Ransom-note cutout letters are intentionally reserved for the main
 page openings and one noir interlude; ordinary section and project titles stay
 undistorted for a clearer visual hierarchy.
-
-The site copy was edited with the
-[Humanizer](https://github.com/blader/humanizer) guidelines. That pass removed
-stiff or promotional phrasing while preserving every project fact, limitation,
-status, link, and public contact detail.
 
 Anton and Barlow Condensed are distributed under the SIL Open Font License.
 Their license texts are included beside the font files in `assets/fonts/`.
@@ -78,6 +73,7 @@ tree. All core content and navigation remain available without JavaScript.
 
 ## Run locally
 
+I'm not sure why you'd want to save my website for running locally but here are the basic steps below.
 No build step is required. Serve the repository root so JSON and relative paths behave like GitHub Pages:
 
 ```bash
