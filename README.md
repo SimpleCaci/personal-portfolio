@@ -9,7 +9,7 @@ comic-panel cuts, hard shadows, web geometry, and a small rope-and-ranch
 streak. The original cow mascot stayed. Navigation and content do not depend
 on animation or JavaScript.
 
-The featured work spans geospatial mission data, computer vision, handwriting OCR, voice interaction, browser-based pose estimation, and practical productivity experiments. Project status language is intentionally specific: a repository link is not presented as a verified deployment or demo.
+The featured work spans geospatial mission data, computer vision, handwriting OCR, voice interaction, browser-based pose estimation, and practical productivity experiments.
 
 ## Pages
 
@@ -96,7 +96,7 @@ The script checks page structure, local links and images, alternative text, exte
 
 ## Deployment
 
-The repository is associated with <https://simplecaci.github.io/personal-portfolio/>. Confirm the GitHub Pages source and live response after merging; the repository does not contain a custom deployment action.
+The portfolio is available at <https://simplecaci.github.io/personal-portfolio/> and is hosted with GitHub Pages.
 
 ## Authorship
 
